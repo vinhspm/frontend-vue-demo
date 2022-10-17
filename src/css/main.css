@@ -1,0 +1,219 @@
+@import url(./base/button.css);
+@import url(./base/combobox.css);
+@import url(./base/input.css);
+@import url(./base/table.css);
+@import url(./layout/container.css);
+@import url(./base/icon.css);
+@import url(./base/dialog.css);
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,500;1,700&display=swap");
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+@media screen and (max-width: 1024px) {
+  .menu {
+    display: none;
+  }
+}
+button {
+  cursor: pointer;
+}
+.heading {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .384px!important;
+  color: #212121;
+}
+
+.title {
+  font-size: 20px;
+}
+
+body {
+  font-size: 14px;
+  color: #454545;
+  margin: 0;
+  min-width: 1024px;
+}
+
+.m-row {
+  /* display: flex;
+    flex-direction: column; */
+  margin: 4px 0;
+  /* max-width: 200px; */
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.justify-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.justify-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.justify-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.align-center {
+  display: flex;
+  align-items: center;
+}
+.justify-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+.h-32 {
+  height: 32px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+
+.col-50 {
+  flex-basis: 50%;
+}
+
+.col ~ .col {
+  margin-left: 10px;
+}
+
+.row ~ .row {
+  margin-top: 8px;
+}
+
+label ~ * {
+  margin-top: 4px;
+}
+
+/* Căn chỉnh text */
+
+.text-align--left {
+  text-align: left;
+}
+
+.text-align--center {
+  text-align: center;
+}
+
+.text-align--right {
+  text-align: right;
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  /* background-color: #4545459b; */
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading__icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border-top: 8px solid rgb(0, 142, 31);
+  border-left: 8px solid rgb(0, 142, 31);
+  border-bottom: 8px solid #fff;
+  border-right: 8px solid #fff;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+.loading__text {
+  color: #fff;
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.border-red {
+  border: 1px solid #ff0000;
+}
+.w-25 {
+  width: 25%;
+}
+.w-30 {
+  width: 30%;
+}
+.w-40 {
+  width: 40%;
+}
+.w-60 {
+  width: 60%;
+}
+.w-70 {
+  width: 70%;
+}
+.el-input {
+    width: 100%!important;
+}
+.el-input__wrapper {
+  border-radius: 2px;
+}
+.is-focus {
+  box-shadow: 0 0 0 1px #2ca01c inset !important;
+}
+
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}

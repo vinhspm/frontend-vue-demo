@@ -1,0 +1,109 @@
+.header {
+    display: flex;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 56px;
+    box-sizing: border-box;
+}
+
+.header__left {
+    width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.header__sibar {
+    margin-left: 10px;
+    height: 16px;
+    width: 17px;
+    background: url(../../assets/Icon.ad7c4b8.svg) no-repeat -3px -124px;
+}
+
+.header__logo {
+    margin-left: 10px;
+    height: 32px;
+    width: 32px;
+    background: url(../../assets/Icon.ad7c4b8.svg) no-repeat 0px -72px;
+}
+.header__title {
+    font-size: 18px;
+    color: #000;
+    font-weight: 700;
+    width: 100px;
+}
+.header__right {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    height: 100%;
+}
+
+.account-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 200px;
+}
+
+.notification-button {
+    width: 24px;
+    height: 24px;
+    background: url(../../assets/Icon.ad7c4b8.svg) no-repeat -267px -2px;
+}
+
+.question-button {
+    width: 24px;
+    height: 24px;
+    background: url(../../assets/Icon.ad7c4b8.svg) no-repeat -290px -170px;
+}
+
+.moreinfo-button {
+    width: 24px;
+    height: 24px;
+    background: url(../../assets/Icon.ad7c4b8.svg) no-repeat -146px -194px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background-image: url(https://testcdnamisapp.misacdn.net/APIS/PlatformAPI/api/Avatar/adfdd7b1-ed83-481f-9340-4b399ee37b10/AQIXVH31.jpg?avatarID=73b73c2c-dbc9-4179-a36b-5fbe8276ebdf&width=64&height=64&v=20211108);
+    border-radius: 50%;
+    background-position: center;
+    background-size: 32px;
+    background-size: contain;
+    margin-left: 10px;
+}
+
+.right__header__1 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    width: 700px;
+    margin: 0;
+    height: 100%;
+}
+
+.right__header__1 a {
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #212121;
+}
+
+.router-link-active {
+    position: relative;
+    border-bottom: 4px solid #ec5504;
+    font-weight: 700;
+    transform: translate(0, 2px);
+    height: calc(100% - 8px)!important;
+}

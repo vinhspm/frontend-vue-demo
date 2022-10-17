@@ -1,0 +1,54 @@
+.menu-item div:first-child {
+  width: 100px;
+}
+.menu-item {
+  cursor: pointer;
+}
+#header, #footer {
+  height: 32px;
+  padding: 0 14px 0 10px;
+}
+#header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+#header div:first-child {
+  width: 100px;
+}
+.input_container {
+  display: flex;
+}
+.input_action {
+  width: 32px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  cursor: pointer;
+
+}
+.input_action:hover {
+  background-color: #e0e0e0;
+}
+.input_action div {
+  transition: 0.3s;
+}
+.rotate_icon {
+  transform: rotate(180deg);
+}
+#footer {
+  display: flex;
+  align-items: center;
+}
+#footer div {
+  margin-right: 5px;
+  color: #47c336;
+  cursor: pointer;
+}
+.bg-gray {
+  background-color: #eceef1;
+}

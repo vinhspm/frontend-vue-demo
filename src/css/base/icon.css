@@ -1,0 +1,124 @@
+.icon {
+    background-repeat: no-repeat;
+}
+
+.icon-16 {
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.icon-20 {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-24 {
+    background-size: 24px 24px;
+}
+
+.icon-32 {
+    width: 32px;
+    height: 32px;
+}
+.icon-48 {
+    background-size: 48px 48px;
+}
+.icon__dashboard {
+    background-image: url(../../assets/icon/dashboard.png);
+}
+
+.icon__employee {
+    background-image: url(../../assets/icon/dic-employee.png);
+}
+
+.icon__report {
+    background-image: url(../../assets/icon/report.png);
+}
+
+.icon--save {
+    background-image: url(../../assets/icon/save.svg);
+}
+.icon--warning {
+    width: 48px;
+    height: 48px;
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -598px -455px;
+}
+.icon--alert {
+    width: 48px;
+    height: 48px;
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -752px -455px;
+}
+.icon--ask {
+    width: 48px;
+    height: 48px;
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -832px -455px;
+}
+.sprite_icon {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat;
+}
+
+.dashboard_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -29px -1585px!important;
+}
+
+.cash_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -73px -1586px!important;
+}
+
+.deposit_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -117px -1587px!important;
+}
+
+.buy_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -161px -1588px!important;
+}
+
+.sell_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -206px -1585px!important;
+}
+
+.bill_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -249px -1586px!important;
+}
+
+.warehouse_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -291px -1587px!important;
+}
+
+.tool_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -336px -1587px!important;
+}
+
+.static_asset_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -380px -1587px!important;
+}
+
+.salary_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -513px -1661px!important;
+}
+
+.tax_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -425px -1588px!important;
+}
+.price_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -470px -1587px!important;
+}
+.summary_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -514px -1586px!important;
+}
+.budget_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -426px -1659px!important;
+}
+.report_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -552px -1588px!important;
+}
+.analyze_icon__active {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -251px -1663px!important;
+}
+.arrow_icon_dropdown {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -560px -359px!important;
+}
+.pen_icon {
+    background: url(../../assets/img/Sprites.79cca840.svg) no-repeat -2392px -404px!important;
+}

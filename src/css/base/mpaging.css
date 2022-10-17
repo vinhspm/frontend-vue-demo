@@ -1,0 +1,7 @@
+.paging-container {
+  width: 200px;
+  
+}
+.paging-container:hover {
+  cursor: pointer;
+}
