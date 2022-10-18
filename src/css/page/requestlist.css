@@ -49,53 +49,7 @@ table {
   background-color: #eceef1;
   text-transform: uppercase;
 }
-.table__paging {
-  background-color: #fff;
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-}
-.sticky_header_left {
-  position: sticky;
-  left: 0;
-  background-color: #eceef1;
-  z-index: 2;
-}
 
-.sticky_header_left_1 {
-  position: sticky;
-  left: 61px;
-  background-color: #eceef1;
-  z-index: 2;
-}
-
-.sticky_header_right {
-  position: sticky;
-  right: -1px;
-  background-color: #eceef1;
-  z-index: 2;
-}
-
-.sticky_body_left {
-  position: sticky;
-  left: 0;
-  background: #fff;
-  z-index: 5;
-}
-
-.sticky_body_right {
-  position: sticky;
-  right: -1px;
-  background-color: #fff;
-  z-index: 2;
-}
-
-.sticky_body_left_1 {
-  position: sticky;
-  left: 61px;
-  background: #fff;
-  z-index: 2;
-}
 
 #editButton {
   border: none;

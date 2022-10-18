@@ -14,17 +14,48 @@
 
   <div class="page__table">
     <div class="page__toolbar">
-      <div class="page_toolbar_container--left">
-        <div class="page__toolbar--left">
-
+      <div class="page__toolbar--left-container">
+        <div class="page__toolbar--left" tabindex="0">
+          <i></i>
+          <input type="text" placeholder="Tìm kiếm">
         </div>
-
       </div>
+
       <div class="page__toolbar--right">
+        <button class="toolbar__dropdown">
+          <div>
+            <span>Trạng thái</span>
+            <b>Tất cả</b>
+            <div class="mi-chevron-down-small"></div>
+          </div>
+        </button>
+        <div class="department__selectbox">
+          <input disabled type="text" placeholder="Tất cả đơn vị">
+          <div class="dropdown-icon-container">
+            <div class="mi-chevron-down"></div>
+
+          </div>
+        </div>
+        <div class="btn-sidebar">
+          <div class="mi-refresh"></div>
+        </div>
+        <div class="btn-sidebar">
+          <div class="mi-filter"></div>
+        </div>
+        <div class="btn-sidebar">
+          <div class="mi-export"></div>
+        </div>
+        <div class="btn-sidebar">
+          <div class="mi-setting"></div>
+        </div>
         
+
       </div>
     </div>
-
+    <m-table></m-table>
+    <m-paging :recordPerPageProps="15" :totalRecord="20" :totalPage="2"
+      
+      :currentPageProp="1"></m-paging>
   </div>
 </template>
 <script>

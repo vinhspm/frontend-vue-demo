@@ -1,31 +1,34 @@
 <template>
   <div class="table__paging">
     <div class="table__paging--left">
-      Tổng số: <b>{{ totalRecord }}</b> bản ghi
+      Tổng số bản ghi: <b>{{ totalRecord }}</b>
     </div>
 
     <div class="table__paging--right">
       <div class="paging-container">
-        <m-combobox width="200" :data="pagingOptions" fieldKey="Value" :modelValue="recordPerPage" :readOnly="true"
-          :top="true" @update:modelValue="recordPerPage = $event">
-        </m-combobox>
+        <DxSelectBox :data-source="pagingOptions" :value="recordPerPage" display-expr="Value" value-expr="Value" />
+        
       </div>
 
       <div class="table__paging--center">
-        <button :disabled="currentPageProp === 1 || !totalPage" class="paging__button" @click="toPrevPage">Trước</button>
+        <button :disabled="currentPageProp === 1 || !totalPage" class="paging__button"
+          @click="toPrevPage">Trước</button>
         <div class="paging__button--group">
           <button :disabled="pageIndex === '...'" v-for="(pageIndex, index) in pageArray" :key="pageIndex+index"
             class="paging__number" :class="{'paging__number--selected': pageIndex === currentPage}"
             @click="changePage(pageIndex)">{{pageIndex}}</button>
         </div>
-        <button :disabled="currentPageProp === totalPage || !totalPage" class="paging__button" @click="toNextPage">Sau</button>
+        <button :disabled="currentPageProp === totalPage || !totalPage" class="paging__button"
+          @click="toNextPage">Sau</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { PAGING_OPTION } from '@/enum.js'
+import { PAGING_OPTION } from '../../../enum.js'
+import DxSelectBox from 'devextreme-vue/select-box';
 export default {
+  components: {DxSelectBox},
   created() {
     this.recordPerPage = this.recordPerPageProps.toString();
   },
