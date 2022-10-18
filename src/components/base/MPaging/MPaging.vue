@@ -7,19 +7,16 @@
     <div class="table__paging--right">
       <div class="paging-container">
         <DxSelectBox :data-source="pagingOptions" :value="recordPerPage" display-expr="Value" value-expr="Value" />
-        
       </div>
-
+      <div class="paging--pageinfo">
+        <span>Từ <b>{{1}}</b> đến <b>{{8}}</b> bản ghi</span>
+      </div>
       <div class="table__paging--center">
-        <button :disabled="currentPageProp === 1 || !totalPage" class="paging__button"
-          @click="toPrevPage">Trước</button>
-        <div class="paging__button--group">
-          <button :disabled="pageIndex === '...'" v-for="(pageIndex, index) in pageArray" :key="pageIndex+index"
-            class="paging__number" :class="{'paging__number--selected': pageIndex === currentPage}"
-            @click="changePage(pageIndex)">{{pageIndex}}</button>
-        </div>
-        <button :disabled="currentPageProp === totalPage || !totalPage" class="paging__button"
-          @click="toNextPage">Sau</button>
+        <button :disabled="currentPageProp === 1 || !totalPage" class="paging__number paging__button--prev"
+          @click="toPrevPage"></button>
+
+        <button :disabled="currentPageProp === totalPage || !totalPage" class="paging__number paging__button--next"
+          @click="toNextPage"></button>
       </div>
     </div>
   </div>

@@ -1,8 +1,10 @@
-<template >
+<template>
   <div class="page__header flex">
     <div class="page__header--title heading">Đăng ký làm thêm</div>
     <div class="flex items-center">
-      <button class="add-button"><span class="add-icon"></span> <span>Thêm</span></button>
+      <button class="add-button">
+        <span class="add-icon"></span> <span>Thêm</span>
+      </button>
       <div class="flex items-center div-division">
         <div class="div-division-child"></div>
       </div>
@@ -17,7 +19,7 @@
       <div class="page__toolbar--left-container">
         <div class="page__toolbar--left" tabindex="0">
           <i></i>
-          <input type="text" placeholder="Tìm kiếm">
+          <input type="text" placeholder="Tìm kiếm" />
         </div>
       </div>
 
@@ -30,10 +32,9 @@
           </div>
         </button>
         <div class="department__selectbox">
-          <input disabled type="text" placeholder="Tất cả đơn vị">
+          <input disabled type="text" placeholder="Tất cả đơn vị" />
           <div class="dropdown-icon-container">
             <div class="mi-chevron-down"></div>
-
           </div>
         </div>
         <div class="btn-sidebar">
@@ -48,19 +49,50 @@
         <div class="btn-sidebar">
           <div class="mi-setting"></div>
         </div>
-        
-
       </div>
     </div>
-    <m-table></m-table>
-    <m-paging :recordPerPageProps="15" :totalRecord="20" :totalPage="2"
-      
-      :currentPageProp="1"></m-paging>
+    <m-table :dataSource="requestLists"></m-table>
+    <m-paging
+      :recordPerPageProps="15"
+      :totalRecord="20"
+      :totalPage="2"
+      :currentPageProp="1"
+    ></m-paging>
   </div>
 </template>
 <script>
+import { getRequestsFilter } from "../../assets/axios/requestController/requestController.js";
 export default {
   name: "RequestList",
+  data() {
+    return {
+      requestLists: [],
+      params: {
+        PageSize: 15,
+        PageIndex: 1,
+        Filter: null,
+        CustomFilter: null,
+        QuickSearch: {
+          SearchValue: "",
+          Columns: ["EmployeeCode", "FullName"],
+        },
+        CustomParam: {
+          OrganizationUnitID: null,
+        },
+        Sort: "W3sic2VsZWN0b3IiOiJGdWxsTmFtZSIsImRlc2MiOnRydWV9XQ==",
+        Columns:
+          "OverTimeID,EmployeeID,EmployeeCode,FullName,JobPositionName,ApprovalName,OrganizationUnitID,OrganizationUnitName,ApplyDate,BreakTimeFrom,BreakTimeTo,FromDate,ToDate,Reason,Status,WorkingShiftName,OverTimeInWorkingShiftName,Description,DataSourceID,ApprovalToID,Step,NextStep,IsProcess",
+      },
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      const res = await getRequestsFilter(this.params);
+    },
+  },
 };
 </script>
 <style scoped>

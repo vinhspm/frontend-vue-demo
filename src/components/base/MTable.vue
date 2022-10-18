@@ -3,13 +3,26 @@
     class="table__content"
   >
     <div class="table__content_body">
-      <table id="tbEmployeeList" class="table"></table>
+      <DxDataGrid id="dataGrid" :data-source="dataSource"
+            key-expr="EmployeeID">>
+            <!-- Configuration goes here -->
+      </DxDataGrid>
     </div>
   </div>
 </template>
 <script>
-
-export default {};
+import { DxDataGrid } from 'devextreme-vue/data-grid';
+export default {
+  components: {
+        DxDataGrid
+    },
+    props: {
+        dataSource: {
+          type: Object,
+          default: []
+        }
+    }
+};
 </script>
 <style scoped>
 @import url(../../css/page/requestlist.css);
