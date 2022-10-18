@@ -52,41 +52,23 @@
       </div>
     </div>
     <m-table :dataSource="requestLists"></m-table>
-    <m-paging
-      :recordPerPageProps="15"
-      :totalRecord="20"
-      :totalPage="2"
-      :currentPageProp="1"
-    ></m-paging>
+    <m-paging :recordPerPageProps="15" :totalRecord="20" :totalPage="2" :currentPageProp="1"></m-paging>
   </div>
 </template>
 <script>
 import { getRequestsFilter } from "../../assets/axios/requestController/requestController.js";
+import lodash from 'lodash';
+import {DEFAULT_PARAMS, DEFAULT_REQUEST_LIST} from '../../enum.js'
 export default {
   name: "RequestList",
   data() {
     return {
-      requestLists: [],
-      params: {
-        PageSize: 15,
-        PageIndex: 1,
-        Filter: null,
-        CustomFilter: null,
-        QuickSearch: {
-          SearchValue: "",
-          Columns: ["EmployeeCode", "FullName"],
-        },
-        CustomParam: {
-          OrganizationUnitID: null,
-        },
-        Sort: "W3sic2VsZWN0b3IiOiJGdWxsTmFtZSIsImRlc2MiOnRydWV9XQ==",
-        Columns:
-          "OverTimeID,EmployeeID,EmployeeCode,FullName,JobPositionName,ApprovalName,OrganizationUnitID,OrganizationUnitName,ApplyDate,BreakTimeFrom,BreakTimeTo,FromDate,ToDate,Reason,Status,WorkingShiftName,OverTimeInWorkingShiftName,Description,DataSourceID,ApprovalToID,Step,NextStep,IsProcess",
-      },
+      requestLists: DEFAULT_REQUEST_LIST.Data,
+      params: lodash.cloneDeep(DEFAULT_PARAMS),
     };
   },
   created() {
-    this.getData();
+    // this.getData();
   },
   methods: {
     async getData() {

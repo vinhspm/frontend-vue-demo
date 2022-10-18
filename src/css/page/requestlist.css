@@ -36,11 +36,6 @@ table {
   scroll-behavior: smooth;
 }
 
-.table__content {
-  width: calc(100% - 40px);
-  height: calc(100% - 125px);
-}
-
 #tbEmployeeList {
   width: 100%;
 }

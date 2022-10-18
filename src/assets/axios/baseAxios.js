@@ -3,12 +3,11 @@ import axios from "axios";
 
 axios.defaults.timeout = TIME_OUT_VALUE;
 const HTTP = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
 });
 const headers = {
   "Content-Type": "application/json",
 };
-console.log(import.meta.env['VITE_BASE_API_URL']);
 /**
  * hàm base axios xử lý http get request
  * author: vinhkt
