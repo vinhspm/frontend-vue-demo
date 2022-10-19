@@ -2,7 +2,7 @@
   <div class="page__header flex">
     <div class="page__header--title heading">Đăng ký làm thêm</div>
     <div class="flex items-center">
-      <button class="add-button">
+      <button class="add-button" @click="toggleDialog">
         <span class="add-icon"></span> <span>Thêm</span>
       </button>
       <div class="flex items-center div-division">
@@ -52,19 +52,35 @@
       </div>
     </div>
     <m-table :dataSource="requestLists"></m-table>
-    <m-paging :recordPerPageProps="15" :totalRecord="20" :totalPage="2" :currentPageProp="1"></m-paging>
+    <m-paging
+      :recordPerPageProps="15"
+      :totalRecord="20"
+      :totalPage="2"
+      :currentPageProp="1"
+    ></m-paging>
   </div>
+  <RequestDetail
+    v-if="isShowDetail"
+    @close-dialog="toggleDialog"
+    :viewType="detailViewType"
+    :selectedRequestId="selectedRequestId"
+  ></RequestDetail>
 </template>
 <script>
 import { getRequestsFilter } from "../../assets/axios/requestController/requestController.js";
-import lodash from 'lodash';
-import {DEFAULT_PARAMS, DEFAULT_REQUEST_LIST} from '../../enum.js'
+import lodash from "lodash";
+import { DEFAULT_PARAMS, DEFAULT_REQUEST_LIST, DETAIL_VIEW_TYPE } from "../../enum.js";
+import RequestDetail from './RequestDetail.vue'
 export default {
   name: "RequestList",
+  components: {RequestDetail},
   data() {
     return {
       requestLists: DEFAULT_REQUEST_LIST.Data,
       params: lodash.cloneDeep(DEFAULT_PARAMS),
+      detailViewType: DETAIL_VIEW_TYPE.ADDNEW,
+      isShowDetail: false,
+      selectedRequestId: 0
     };
   },
   created() {
@@ -73,6 +89,13 @@ export default {
   methods: {
     async getData() {
       const res = await getRequestsFilter(this.params);
+    },
+    toggleDialog() {
+      try {
+        this.isShowDetail = !this.isShowDetail;
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

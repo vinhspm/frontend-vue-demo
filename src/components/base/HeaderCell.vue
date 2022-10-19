@@ -41,9 +41,14 @@ export default {
       
     },
     pinColumn(event) {
-      this.isPin = !this.isPin;
-      console.log(this.isPin);
-      // console.log(event.path[3]);
+      // this.isPin = !this.isPin;
+      // console.log(event.path[3].getAttribute('aria-colindex'));
+      if(!this.isPin) {
+        this.$emit('pin-column', {index: event.path[3].getAttribute('aria-colindex') - 2, showPin: true});
+      }
+      else {
+        this.$emit('pin-column', {index: event.path[3].getAttribute('aria-colindex') - 2, showPin: false});
+      }
     }
   },
 };

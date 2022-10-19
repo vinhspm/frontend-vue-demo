@@ -919,3 +919,11 @@ export const REQUEST_STATUS = {
   WAITING: 2,
   DENINED: 3
 }
+
+export const NUM_PIN_COLUMNS = 12;
+
+export const DETAIL_VIEW_TYPE= {
+  DETAIL: 1,
+  EDIT: 2,
+  ADDNEW: 3
+}

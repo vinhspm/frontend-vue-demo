@@ -1,0 +1,29 @@
+.detail-form-wrapper {
+  width: calc(100vw - 48px);
+  height: calc(100vh - 88px);
+  background-color: #eeeeee;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 56px;
+  z-index: 5;
+  padding: 16px 24px;
+}
+.form-header {
+  height: 62px;
+  padding-bottom: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.button-back {
+  height: 24px;
+  width: 24px;
+  -webkit-mask-image: url(../../assets/Icon.ad7c4b8.svg);
+  -webkit-mask-position: -48px -48px;
+  background-color: #666;
+  margin-right: 12px;
+  cursor: pointer;
+}
