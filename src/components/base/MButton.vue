@@ -12,6 +12,7 @@ export default {
     border-radius: 4px;
     color: #fff;
     background-color: #2ca01c;
+    cursor: pointer;
 }
 
 .btn-test {

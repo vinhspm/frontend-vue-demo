@@ -16,7 +16,7 @@ export default {
     } else {
       nameSeparateArray = this.cellData.value.split(" ");
     }
-    this.avatarName = (nameSeparateArray[0][0] + nameSeparateArray[nameSeparateArray.length - 1][0]);
+    this.avatarName = (nameSeparateArray[0][0] + nameSeparateArray[2][0]);
   },
   props: {
     cellData: Object

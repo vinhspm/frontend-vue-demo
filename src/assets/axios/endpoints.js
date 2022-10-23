@@ -6,5 +6,6 @@ export const ENDPOINTS = {
   NEW_EMPLOYEE_CODE: '/Employees/NewEmployeeCode',
   MULTIPLE_DELETE_EMPLOYEE: '/Employees/multiple-delete',
   EXPORT_EMPLOYEE_FILTER: '/Employees/ExportAllEmployeesFilter',
-  REQUESTS_FILTER: '/Requests/filter'
+  REQUESTS_FILTER: '/Requests/filter',
+  REQUESTS: '/Requests'
 }

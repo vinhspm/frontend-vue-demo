@@ -11,3 +11,64 @@
   padding: 16px 24px;
   /* overflow: hidden; */
 }
+.form-header {
+  height: 36px;
+  padding-bottom: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-back {
+  height: 24px;
+  width: 24px;
+  -webkit-mask-image: url(../../assets/Icon.ad7c4b8.svg);
+  -webkit-mask-position: -48px -48px;
+  background-color: #666;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+h2 {
+  margin: 0;
+}
+
+.form-body {
+  width: 100%;
+  height: calc(100vh - 150px);
+  background-color: #eeeeee;
+  border-radius: 4px;
+}
+
+.form-main {
+  min-height: 590px;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-note {
+  min-height: 260px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.form-field {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.form-field label {
+  width: 33.333% !important;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin-top: 4px;
+  
+}
+.form-field > div {
+  width: 66.666%;
+}

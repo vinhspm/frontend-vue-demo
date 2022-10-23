@@ -216,19 +216,6 @@ label ~ * {
   padding: 24px;
 }
 
-.dx-field-item-label {
-  width: 33.333% !important;
-}
-
-.dx-layout-manager
-  .dx-label-h-align.dx-flex-layout:not(.dx-field-item-label-align)
-  .dx-field-item-content {
-  width: 66.666%;
-}
-.dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content {
-  width: 66.666%;
-}
-
 .dx-texteditor.dx-state-hover {
   border-color: #ec5504;
 }
@@ -321,8 +308,16 @@ body
 }
 .dx-list:not(.dx-list-select-decorator-enabled)
   .dx-list-item.dx-list-item-selected {
-  background: rgba(255, 237, 226, 6) !important;
+  background: rgba(255, 237, 226, 6);
   color: #ec5504;
+}
+.dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-focused {
+  background: rgb(255, 230, 215);
+  color: #212121;
+}
+.dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-focused.dx-list-item-selected {
+  background: rgb(255, 230, 215);
+  color: #212121;
 }
 .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-hover {
   background: rgb(255, 230, 215);
@@ -334,9 +329,6 @@ body
   > div:nth-child(2)
   > table {
   background-color: #f5f5f5;
-}
-.dx-scrollable-scroll-content {
-  border-radius: 10px !important;
 }
 
 .command-button,
@@ -440,62 +432,4 @@ span.dx-checkbox-icon {
 .dx-datagrid-rowsview .dx-row.dx-selection,
 .dx-row.dx-selection:not(.dx-row-focused) td {
   background-color: #fff4e5 !important;
-}
-.form-main {
-  min-height: 590px;
-  background-color: #fff;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  padding: 24px;
-}
-
-.form-note {
-  min-height: 260px;
-  background-color: #fff;
-  border-radius: 4px;
-}
-.form-body {
-  /* display: table-cell; */
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-  background-color: #eeeeee;
-  border-radius: 4px;
-}
-/* #app > div.main > div > div.detail-form-wrapper {
-  max-height: 400px;
-} */
-#form > div > div > div > div:nth-child(2) {
-  max-height: calc(100vh - 160px);
-}
-/* width */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar:hover {
-  width: 8px;
-  border-radius: 4px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-  border-radius: 4px;
-
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-.dx-layout-manager .dx-field-item:not(.dx-first-row) {
-  padding: 0;
-}
-.d-none {
-  display: none;
 }

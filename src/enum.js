@@ -980,20 +980,20 @@ export const DEFAULT_DEPARTMENT_LIST = [
 
 export const WORK_TIME = [
   {
-    id: 1,
-    label: "Trước ca",
+    value: 1,
+    txt: "Trước ca",
   },
   {
-    id: 2,
-    label: "Sau ca",
+    value: 2,
+    txt: "Sau ca",
   },
   {
-    id: 3,
-    label: "Nghỉ giữa ca",
+    value: 3,
+    txt: "Nghỉ giữa ca",
   },
   {
-    id: 4,
-    label: "Ngày nghỉ",
+    value: 4,
+    txt: "Ngày nghỉ",
   },
 ];
 //date time options

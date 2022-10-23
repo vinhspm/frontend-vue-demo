@@ -27,16 +27,6 @@ export async function deleteRequest(id) {
 }
 
 /**
- * hàm lấy mã yêu cầu kế tiếp
- * author: vinhkt(22/09/2022)
- * @returns mã của yêu cầu kế tiếp
- */
-export async function getNextRequest() {
-  const endpoint = ENDPOINTS.NEW_REQUEST_CODE;
-  return await axios.getAxios(endpoint);
-}
-
-/**
  * call api thêm mới yêu cầu
  * @param {json body} body 
  * @returns id của yêu cầu được thêm mới
@@ -78,4 +68,16 @@ export async function deleteMultipleRequest(ids) {
  export async function exportAllRequestsFilter(requestFilter) {
   const endpoint = ENDPOINTS.EXPORT_REQUEST_FILTER;
   return await getAxiosBlob(endpoint, requestFilter);
+}
+
+/**
+ * hàm lấy yêu cầu theo id
+ * author: vinhkt (22/09/2022)
+ * created: 22/09/2022 4h utc
+ * @param {params: {requestId} } requestId
+ * @returns
+ */
+ export async function getRequestDetail(requestId) {
+  const endpoint = ENDPOINTS.REQUESTS + `/${requestId}`;
+  return await axios.getAxios(endpoint);
 }

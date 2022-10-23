@@ -75,14 +75,12 @@ export const REQUEST_LIST_HEADER = [
     format: "dd/MM/yyyy HH:mm"
   },
   {
-    dataField: "OverTimeInWorkingShiftName",
+    dataField: "OverTimeInWorkingShift",
     caption: "Thời điểm làm thêm",
     width: 120,
-  },
-  {
-    dataField: "WorkingShiftName",
-    caption: "Ca làm thêm",
-    width: 150,
+    cellTemplate: 'cell-workshift-name',
+    alignment: "left",
+
   },
   {
     dataField: "Reason",

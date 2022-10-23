@@ -34,6 +34,9 @@
       <template #cell-position-name="{data}">
         {{getPositionName(data)}}
       </template>
+      <template #cell-workshift-name="{data}">
+        {{getWorkShiftName(data)}}
+      </template>
     </DxDataGrid>
   </div>
 </template>
@@ -55,7 +58,7 @@ import HeaderCell from "./HeaderCell.vue";
 import NameCell from "./NameCell.vue";
 import { getDepartments } from "../../assets/axios/departmentController/departmentController.js";
 import { getPositions } from "../../assets/axios/positionController/positionController.js";
-import { NUM_PIN_COLUMNS, DETAIL_VIEW_TYPE } from "../../enum.js";
+import { NUM_PIN_COLUMNS, DETAIL_VIEW_TYPE, WORK_TIME } from "../../enum.js";
 import { REQUEST_LIST_HEADER } from "../../resources.js";
 import lodash from "lodash";
 export default {
@@ -86,7 +89,8 @@ export default {
       listHeaders: [],
       isShowPinIcon: [],
       departments: [],
-      positions: []
+      positions: [],
+      workShifts: WORK_TIME
     };
   },
   created() {
@@ -116,6 +120,15 @@ export default {
       })
       if (position) {
         return position.PositionName;
+      }
+      else return null;
+    },
+    getWorkShiftName(data) {
+      const workShift = this.workShifts.find(e => {
+        return e.value === data.value
+      })
+      if (workShift) {
+        return workShift.txt;
       }
       else return null;
     },
