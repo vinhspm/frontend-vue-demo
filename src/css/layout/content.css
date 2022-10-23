@@ -111,22 +111,16 @@ input:hover {
 }
 .toolbar__dropdown > div {
   justify-content: center;
-  margin-right: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 20px;
 }
 .toolbar__dropdown span {
   color: gray;
   margin-right: 6px;
 }
-.mi-chevron-down-small {
-  width: 24px;
-  height: 24px;
-  -webkit-mask-position: -96px -48px;
-  -webkit-mask-image: url(../../assets/Icon.ad7c4b8.svg);
-  background-color: #666 !important;
-}
+
 .dropdown-icon-container {
   width: 34px;
   height: 34px;
@@ -162,6 +156,8 @@ input:hover {
   outline: none;
   padding: 7px 0 8px 9px;
   cursor: pointer;
+  width: 100%;
+  background-color: #fff;
 }
 
 .department__selectbox:hover {

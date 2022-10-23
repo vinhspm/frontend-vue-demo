@@ -35,16 +35,20 @@ export const REQUEST_LIST_HEADER = [
     dataField: "FullName",
     caption: "Người nộp đơn",
     width: 220,
+    cellTemplate: 'cell-avatar-name'
   },
   {
-    dataField: "JobPositionName",
+    dataField: "PositionId",
     caption: "Vị trí công việc",
-    width: 150,
+    width: 170,
+    cellTemplate: 'cell-position-name'
   },
   {
-    dataField: "OrganizationUnitName",
+    dataField: "DepartmentId",
     caption: "Đơn vị công tác",
-    width: 150,
+    width: 220,
+    cellTemplate: 'cell-department-name'
+
   },
   {
     dataField: "ApplyDate",
@@ -86,7 +90,7 @@ export const REQUEST_LIST_HEADER = [
     width: 220,
   },
   {
-    dataField: "ApprovalName",
+    dataField: "ApprovalToName",
     caption: "Người duyệt",
     width: 150,
   },

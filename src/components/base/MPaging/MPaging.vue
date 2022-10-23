@@ -6,10 +6,10 @@
 
     <div class="table__paging--right">
       <div class="paging-container">
-        <DxSelectBox :data-source="pagingOptions" :value="recordPerPage" display-expr="Value" value-expr="Value" />
+        <DxSelectBox :data-source="pagingOptions" :value="recordPerPage" @value-changed="changePageSize" display-expr="Value" value-expr="Value" />
       </div>
       <div class="paging--pageinfo">
-        <span>Từ <b>{{1}}</b> đến <b>{{8}}</b> bản ghi</span>
+        <span>Từ <b>{{firstPageRecordIndex}}</b> đến <b>{{lastPageRecordIndex}}</b> bản ghi</span>
       </div>
       <div class="table__paging--center">
         <button :disabled="currentPageProp === 1 || !totalPage" class="paging__number paging__button--prev"
@@ -27,7 +27,8 @@ import DxSelectBox from 'devextreme-vue/select-box';
 export default {
   components: {DxSelectBox},
   created() {
-    this.recordPerPage = this.recordPerPageProps.toString();
+    this.recordPerPage = this.recordPerPageProps;
+    this.getFirstAndLastRecordIndex();
   },
 
   props: {
@@ -50,24 +51,14 @@ export default {
 
   data() {
     return {
-      recordPerPage: '',
+      recordPerPage: 15,
       pagingOptions: PAGING_OPTION,
       currentPage: 1,
-      pageArray: [],
-      maxPage: 5
+      firstPageRecordIndex: 1,
+      lastPageRecordIndex: 15,
     }
   },
   methods: {
-
-    /**
-     * kích hoạt sự kiện thay đổi trang 
-     * author: vinhkt
-     * created: 22/09/2022
-     * @param {index of page} index 
-     */
-    changePage(index) {
-      this.$emit('update:currentPage', index);
-    },
 
     /**
      * kích hoạt sự kiện thay đổi về trang trước
@@ -89,52 +80,27 @@ export default {
       this.$emit('update:currentPage', this.currentPageProp + 1);
     },
 
-    /**
-     * thay đổi mảng chứa các trang được hiển thị tới người dùng
+        /**
+     * kích hoạt sự kiện thay đổi tới trang sau
      * author: vinhkt
      * created: 22/09/2022
      */
-    changePageArray() {
-      try {
-        const firstPage = 1;
-        const lastPage = this.totalPage;
-        const nextPage = this.currentPageProp + 1;
-        const prevPage = this.currentPageProp - 1;
-        if (lastPage <= this.maxPage) {
-          this.pageArray = Array.from({ length: lastPage }, (_, i) => i + 1);
-        } else {
-          if (this.currentPageProp === firstPage || this.currentPageProp === firstPage + 1) {
-            this.pageArray = ([firstPage, firstPage + 1, firstPage + 2, '...', lastPage - 1, lastPage]);
-          } else if (this.currentPageProp === lastPage || this.currentPageProp === lastPage - 1) {
-            this.pageArray = ([firstPage, firstPage + 1, '...', lastPage - 2, lastPage - 1, lastPage]);
-          } else if (this.currentPageProp === firstPage + 2) {
-            this.pageArray = ([firstPage, firstPage + 1, firstPage + 2, firstPage + 3, '...', lastPage]);
-          } else if (this.currentPageProp === lastPage - 2) {
-            this.pageArray = ([firstPage, '...', lastPage - 3, lastPage - 2, lastPage - 1, lastPage]);
-          } else {
-            this.pageArray = ([firstPage, '...', prevPage, this.currentPageProp, nextPage, '...', lastPage]);
-          }
-        }
-      } catch (err) {
-        console.log(err);
-      }
+    changePageSize(value) {
+      this.$emit('update:recordPerPage', value.value);
+    },
 
+    getFirstAndLastRecordIndex() {
+      if(this.totalRecord < this.recordPerPageProps * this.currentPageProp) {
+        this.firstPageRecordIndex = (this.currentPage - 1) * this.recordPerPage + 1;
+        this.lastPageRecordIndex = this.firstPageRecordIndex + this.totalRecord - (this.currentPage - 1) * this.recordPerPage - 1;
+      } else {
+        this.firstPageRecordIndex = (this.currentPage - 1) * this.recordPerPage + 1;
+        this.lastPageRecordIndex = this.currentPage * this.recordPerPage;
+      }
     }
   },
 
   watch: {
-
-    /**
-     * theo dõi tổng số trang thay đổi để thay đổi mảng pageArray
-     * author: vinhkt
-     * created: 22/09/2022
-     */
-    totalPage: {
-      handler() {
-        this.changePageArray()
-      },
-      immediate: true
-    },
 
     /**
      * theo dõi prop trang hiện tại để cập nhật trên component
@@ -144,7 +110,7 @@ export default {
     currentPageProp: {
       handler(val) {
         this.currentPage = val;
-        this.changePageArray();
+        this.getFirstAndLastRecordIndex();
       },
       immediate: true
     },
@@ -156,12 +122,13 @@ export default {
      */
     recordPerPage: {
       handler(val) {
-        this.$emit('update:recordPerPage', parseInt(val))
-
+        this.getFirstAndLastRecordIndex();
+        this.$emit('update:recordPerPage', val)
         //chuyển trang hiện tại về 1 khi thay đổi số bản ghi trên 1 trang
         this.$emit('update:currentPage', 1);
 
       },
+      immediate: true,
     },
 
     /**
@@ -171,8 +138,17 @@ export default {
      */
     recordPerPageProps: {
       handler(val) {
-        this.recordPerPage = val.toString();
-      }
+        this.getFirstAndLastRecordIndex();
+        this.recordPerPage = val;
+      },
+      immediate: true
+    },
+
+    totalRecord: {
+      handler() {
+        this.getFirstAndLastRecordIndex();
+      },
+      immediate: true
     }
 
   }

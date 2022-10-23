@@ -11,7 +11,7 @@
   padding: 16px 24px;
 }
 .form-header {
-  height: 62px;
+  height: 36px;
   padding-bottom: 16px;
   width: 100%;
   display: flex;
@@ -27,3 +27,28 @@
   margin-right: 12px;
   cursor: pointer;
 }
+h2 {
+  margin: 0;
+}
+
+.form-body {
+  /* display: table-cell; */
+  width: 100%;
+  height: calc(100% - 84px);
+  background-color: #eeeeee;
+  border-radius: 4px;
+  /* overflow-y: scroll; */
+}
+.form-main {
+  min-height: 590px;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.form-note {
+  min-height: 260px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+

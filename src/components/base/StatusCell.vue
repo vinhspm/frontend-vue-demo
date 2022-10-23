@@ -15,21 +15,21 @@ export default {
   },
   methods: {
     className(value) {
-      if (value === REQUEST_STATUS.DENINED) {
+      if (value === REQUEST_STATUS.DENINED.value) {
         return "status-denined";
-      } else if (value === REQUEST_STATUS.WAITING) {
+      } else if (value === REQUEST_STATUS.WAITING.value) {
         return "status-waiting";
       } else {
         return "status-approved";
       }
     },
     cellText(value) {
-      if (value === REQUEST_STATUS.DENINED) {
-        return "Từ chối";
-      } else if (value === REQUEST_STATUS.WAITING) {
-        return "Chờ duyệt";
+      if (value === REQUEST_STATUS.DENINED.value) {
+        return REQUEST_STATUS.DENINED.txt;
+      } else if (value === REQUEST_STATUS.WAITING.value) {
+        return REQUEST_STATUS.WAITING.txt;
       } else {
-        return "Đã duyệt";
+        return REQUEST_STATUS.APPROVED.txt;
       }
     },
 

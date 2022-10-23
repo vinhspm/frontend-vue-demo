@@ -3,7 +3,7 @@
   border-spacing: 0;
 }
 
-table tr {
+.dx-datagrid-rowsview .dx-row {
   height: 48px;
 }
 
@@ -61,8 +61,9 @@ tbody {
   pointer-events: auto!important;
 }
 
-.dx-state-hover {
+.dx-data-row.dx-state-hover:not(.dx-selection):not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row) > td:not(.dx-focused) {
   background-color: #ffede2 !important;
+  cursor: pointer;
 }
 #dataGrid {
   height: calc(100% - 130px);
