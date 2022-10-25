@@ -180,6 +180,7 @@ input:hover {
 }
 .btn-sidebar:hover {
   border: 1px solid #ec5504;
+  cursor: pointer;
 }
 
 .btn-sidebar:hover .mi-refresh,.btn-sidebar:hover  .mi-export,.btn-sidebar:hover  .mi-filter,.btn-sidebar:hover  .mi-setting {

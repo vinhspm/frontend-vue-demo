@@ -89,6 +89,9 @@ tbody {
 .table__paging--left {
   margin-left: 20px;
 }
+.dx-freespace-row {
+  display: none;
+}
 .table__paging--right {
   display: flex;
   justify-content: space-between;

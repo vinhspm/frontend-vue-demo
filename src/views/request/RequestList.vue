@@ -39,7 +39,7 @@
             <div class="mi-chevron-down"></div>
           </div>
         </div>
-        <div class="btn-sidebar">
+        <div class="btn-sidebar" @click="refreshData">
           <div class="mi-refresh"></div>
         </div>
         <div class="btn-sidebar">
@@ -123,6 +123,9 @@ export default {
       this.params.pageNumber = 1;
       this.getData();
     }, 500),
+    refreshData() {
+      this.params = lodash.cloneDeep(DEFAULT_PARAMS);
+    },
     toggleDialog(paramsObj) {
       try {
         if (!paramsObj) {
