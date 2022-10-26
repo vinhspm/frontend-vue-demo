@@ -323,6 +323,10 @@ body
   background: rgb(255, 230, 215);
   color: #212121;
 }
+.dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-active {
+  background: rgb(255, 230, 215);
+  color: #212121;
+}
 #dataGrid
   > div
   > div.dx-datagrid-headers.dx-datagrid-nowrap

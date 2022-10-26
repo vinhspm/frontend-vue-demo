@@ -1120,3 +1120,10 @@ export const DETAIL_VIEW_TYPE = {
   EDIT: 2,
   ADDNEW: 3,
 };
+
+export const NOTIFY_TYPE = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  INFO: 'info',
+  WARNING: 'warning'
+}

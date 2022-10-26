@@ -27,7 +27,7 @@
                 <DxSelectBox :data-source="employeesSource" v-model:value="selectedRequest.EmployeeId" display-expr="FullName"
                   value-expr="EmployeeId" search-enabled="true" search-mode="contains" search-expr="FullName"
                   :search-timeout="200" item-template="item" @value-changed="onValueEmployeeChanged" placeholder=""
-                  :disabled="viewType === 2 || isDisableAll">
+                  :disabled="viewType !== 3 || isDisableAll">
                   <DxValidator>
                     <DxRequiredRule :message="notNullMsg"/>
                   </DxValidator>
@@ -135,6 +135,7 @@
 
     </form>
   </div>
+  <EmployeeList v-if="true"/>
 </template>
 <script>
 import {
@@ -155,7 +156,7 @@ import DxDateBox from 'devextreme-vue/date-box';
 import { DxScrollView } from "devextreme-vue/scroll-view";
 
 import { locale } from "devextreme/localization";
-import { getRequestDetail } from '../../assets/axios/requestController/requestController.js'
+import { getRequestDetail, postRequest, putRequest } from '../../assets/axios/requestController/requestController.js'
 import {
   DxValidator,
   DxRequiredRule,
@@ -169,7 +170,7 @@ import "devextreme-vue/text-area";
 import DataSource from "devextreme/data/data_source";
 import { getEmployees } from '../../assets/axios/employeeController/employeeController.js'
 import { getDepartments } from '../../assets/axios/departmentController/departmentController.js'
-
+import EmployeeList from './EmployeeList.vue';
 import DxTextBox from "devextreme/ui/text_box";
 import Store from 'devextreme/data/abstract_store';
 export default {
@@ -184,7 +185,8 @@ export default {
     DxDateBox,
     StatusCell,
     NameCell,
-    DxTextBox
+    DxTextBox,
+    EmployeeList
   },
   created() {
     locale("vi");
@@ -300,8 +302,7 @@ export default {
     },
     editRequest() {
       console.log("edit", this.selectedRequest.OverTimeId);
-      this.closeDialog();
-      this.$emit("toggle-dialog", {
+      this.$emit("open-dialog", {
         type: DETAIL_VIEW_TYPE.EDIT,
         selectedRequestId: this.selectedRequest.OverTimeId,
       });
@@ -312,7 +313,15 @@ export default {
     buttonSaveClicked(params) {
       const res = params.validationGroup.validate();
       if(res.isValid) {
-        console.log(this.selectedRequest);
+        this.onSave();
+      }
+    },
+    async onSave() {
+      this.selectedRequest.DepartmentId = null;
+      if(this.viewType === DETAIL_VIEW_TYPE.ADDNEW) {
+        const res = await postRequest(this.selectedRequest);
+      } else {
+        const res = await putRequest(this.selectedRequestId,this.selectedRequest);
       }
     }
   },

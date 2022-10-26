@@ -163,15 +163,13 @@ export default {
       } else return false;
     },
     editRequest(event) {
-      console.log('edit', event.row.key);
-      this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.EDIT, selectedRequestId: event.key })
+      this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.EDIT, selectedRequestId: event.row.key })
 
     },
     deleteRequest(event) {
-      console.log('delete', event.row.key);
+      this.$emit('delete-request', event.row.key)
     },
     detailRequest(event) {
-      console.log('detail', event.key);
       this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.DETAIL, selectedRequestId: event.key })
     },
     /**

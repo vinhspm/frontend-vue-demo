@@ -1,5 +1,5 @@
 <template>
-  <div class="page__header flex">
+  <div class="page__header flex" >
     <div class="page__header--title heading">Đăng ký làm thêm</div>
     <div class="flex items-center">
       <button class="add-button" @click="toggleDialog(null)">
@@ -14,12 +14,16 @@
     </div>
   </div>
 
-  <div class="page__table">
+  <div class="page__table" id="request-list">
     <div class="page__toolbar">
       <div class="page__toolbar--left-container">
         <div class="page__toolbar--left" tabindex="0">
           <i></i>
-          <input type="text" placeholder="Tìm kiếm" v-model="params.requestFilter" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm"
+            v-model="params.requestFilter"
+          />
         </div>
       </div>
 
@@ -27,10 +31,14 @@
         <button class="toolbar__dropdown">
           <div>
             <span>Trạng thái</span>
-            <DxSelectBox :data-source="statuses" v-model="params.status" @value-changed="onValueChanged"
-              display-expr="txt" value-expr="value">
+            <DxSelectBox
+              :data-source="statuses"
+              v-model="params.status"
+              @value-changed="onValueChanged"
+              display-expr="txt"
+              value-expr="value"
+            >
             </DxSelectBox>
-
           </div>
         </button>
         <div class="department__selectbox">
@@ -53,22 +61,54 @@
         </div>
       </div>
     </div>
-    <m-table :dataSource="requestLists" @toggle-dialog="toggleDialog($event)"></m-table>
-    <m-paging :recordPerPageProps="params.pageSize" :totalRecord="totalRecord" :currentPageProp="params.pageNumber"
-      @update:recordPerPage="params.pageSize = $event" @update:currentPage="params.pageNumber = $event" :totalPage="totalPage"></m-paging>
+    <m-table
+      :dataSource="requestLists"
+      @toggle-dialog="toggleDialog($event)"
+      @delete-request="deleteRequest($event)"
+    ></m-table>
+    <m-paging
+      :recordPerPageProps="params.pageSize"
+      :totalRecord="totalRecord"
+      :currentPageProp="params.pageNumber"
+      @update:recordPerPage="params.pageSize = $event"
+      @update:currentPage="params.pageNumber = $event"
+      :totalPage="totalPage"
+    ></m-paging>
   </div>
-  <RequestDetail v-if="isShowDetail" @close-dialog="toggleDialog" @toggle-dialog="toggleDialog(event)"
-    :viewType="detailViewType" :selectedRequestId="selectedRequestId"></RequestDetail>
+  <RequestDetail
+    v-if="isShowDetail"
+    @close-dialog="toggleDialog"
+    @open-dialog="openDialog($event)"
+    :viewType="detailViewType"
+    :selectedRequestId="selectedRequestId"
+  ></RequestDetail>
+  <DxLoadPanel
+    :position="{ of: '#request-list' }"
+    :visible="isLoading"
+    :shading="true"
+    shading-color="rgba(0,0,0,0.2)"
+  />
 </template>
 <script>
-import { DxSelectBox } from 'devextreme-vue/select-box';
-import { getRequestsFilter } from "../../assets/axios/requestController/requestController.js";
+import { DxSelectBox } from "devextreme-vue/select-box";
+import { DxLoadPanel } from "devextreme-vue/load-panel";
+import {
+  deleteRequest,
+  getRequestsFilter,
+} from "../../assets/axios/requestController/requestController.js";
 import lodash from "lodash";
-import { DEFAULT_PARAMS, DEFAULT_REQUEST_LIST, DETAIL_VIEW_TYPE, REQUEST_STATUS, REQUEST_STATUS_ARRAY } from "../../enum.js";
-import RequestDetail from './RequestDetail.vue'
+import {
+  DEFAULT_PARAMS,
+  DETAIL_VIEW_TYPE,
+  REQUEST_STATUS_ARRAY,
+  NOTIFY_TYPE,
+} from "../../enum.js";
+import RequestDetail from "./RequestDetail.vue";
+import { custom } from "devextreme/ui/dialog";
+import notify from "devextreme/ui/notify";
 export default {
   name: "RequestList",
-  components: { RequestDetail, DxSelectBox },
+  components: { RequestDetail, DxSelectBox, DxLoadPanel },
   data() {
     return {
       requestLists: [],
@@ -82,6 +122,7 @@ export default {
       statuses: REQUEST_STATUS_ARRAY,
       totalRecord: 0,
       totalPage: 0,
+      isLoading: false,
     };
   },
   created() {
@@ -91,12 +132,12 @@ export default {
     "params.requestFilter": {
       handler() {
         this.getDataSearch();
-      }
+      },
     },
     "params.status": {
       handler() {
         this.getData();
-      }
+      },
     },
     "params.pageNumber": {
       handler() {
@@ -125,6 +166,7 @@ export default {
     }, 500),
     refreshData() {
       this.params = lodash.cloneDeep(DEFAULT_PARAMS);
+      this.getData();
     },
     toggleDialog(paramsObj) {
       try {
@@ -141,6 +183,68 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    openDialog(params) {
+      this.isShowDetail = false;
+      if (params && params.type === DETAIL_VIEW_TYPE.EDIT) {
+        this.detailViewType = DETAIL_VIEW_TYPE.EDIT;
+        this.selectedRequestId = params.selectedRequestId;
+      }
+      this.isShowDetail = true;
+    },
+    deleteRequest(requestId) {
+      this.$nextTick(function () {
+        let myDialog = custom({
+          title: "Cảnh báo",
+          messageHtml: "Bạn có chắc muốn xoá đơn này không?",
+          buttons: [
+            {
+              text: "Huỷ",
+              onClick: (e) => {
+                return { buttonText: e.component.option("text") };
+              },
+            },
+            {
+              text: "Xoá",
+              type: "danger",
+              onClick: (e) => {
+                return { buttonText: e.component.option("text") };
+              },
+            },
+          ],
+        });
+        myDialog.show().then(async (dialogResult) => {
+          if (dialogResult.buttonText === "Xoá") {
+            this.isLoading = true;
+            const res = await deleteRequest(requestId);
+            this.isLoading = false;
+            this.getData();
+            if (res.status === 200) {
+              this.notifyMsg(NOTIFY_TYPE.SUCCESS, "Xoá thành công");
+            } else {
+              this.notifyMsg(NOTIFY_TYPE.ERROR, "Xoá thất bại");
+            }
+            
+          } else {
+            return;
+          }
+        });
+      });
+    },
+    notifyMsg(type, message) {
+      notify(
+        {
+          message: message,
+          width: 230,
+          height: 36,
+          position: {
+            at: "bottom right",
+            my: "bottom right",
+          },
+        },
+        type,
+        500
+      );
     },
   },
 };
