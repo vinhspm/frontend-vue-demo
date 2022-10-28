@@ -1,7 +1,7 @@
 <template>
   <div class="table__content_body">
-    <DxDataGrid id="dataGrid" :data-source="dataSource" key-expr="OverTimeId" :column-width="100"
-      :hover-state-enabled="true" @row-click="detailRequest">
+    <DxDataGrid id="dataGrid" :data-source="dataSource" key-expr="OverTimeId" :column-width="100" 
+      :hover-state-enabled="true" @row-click="detailRequest" no-data-text='Không có dữ liệu!' v-model:selected-row-keys="selectedRowKeys">
       <DxEditing :allow-updating="true" :allow-deleting="true" />
       <DxScrolling column-rendering-mode="virtual" />
       <DxPaging :enabled="false" />
@@ -82,6 +82,10 @@ export default {
       type: Object,
       default: [],
     },
+    selectedRowKeysProp:{
+      type: Array,
+      default: []
+    }
   },
   data() {
     return {
@@ -90,7 +94,8 @@ export default {
       isShowPinIcon: [],
       departments: [],
       positions: [],
-      workShifts: WORK_TIME
+      workShifts: WORK_TIME,
+      selectedRowKeys: []
     };
   },
   created() {
@@ -101,7 +106,17 @@ export default {
   },
 
   watch: {
-
+    "selectedRowKeys.length": {
+      handler() {
+        this.$emit('update:selectedRowKeys', this.selectedRowKeys);
+      }
+    },
+    "selectedRowKeysProp.length": {
+      handler() {
+        this.selectedRowKeys = this.selectedRowKeysProp;
+      },
+      immediate: true,
+    }
   },
 
   methods: {
@@ -181,6 +196,7 @@ export default {
         const positionResponse = await getPositions();
         if (departmentResponse) {
           this.departments = departmentResponse.data;
+          this.$emit('update:departments', this.departments)
         }
         if (positionResponse) {
           this.positions = positionResponse.data;

@@ -54,8 +54,28 @@ export async function putRequest(id, body) {
  * @param {mảng id cần xoá} ids 
  * @returns 
  */
-export async function deleteMultipleRequest(ids) {
+export async function deleteMultipleRequests(ids) {
   const endpoint = ENDPOINTS.MULTIPLE_DELETE_REQUEST;
+  return await multiplePutAxios(endpoint, ids);
+}
+
+/**
+ * từ chối hàng loạt yêu cầu
+ * @param {mảng id cần từ chối} ids 
+ * @returns 
+ */
+ export async function denineMultipleRequests(ids) {
+  const endpoint = ENDPOINTS.MULTIPLE_DENINE_REQUEST;
+  return await multiplePutAxios(endpoint, ids);
+}
+
+/**
+ * duyệt hàng loạt yêu cầu
+ * @param {mảng id cần duyệt} ids 
+ * @returns 
+ */
+ export async function approveMultipleRequests(ids) {
+  const endpoint = ENDPOINTS.MULTIPLE_APPROVE_REQUEST;
   return await multiplePutAxios(endpoint, ids);
 }
 

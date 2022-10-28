@@ -48,6 +48,7 @@ h2 {
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .form-note {
@@ -67,8 +68,64 @@ h2 {
   align-items: center;
   height: 36px;
   margin-top: 4px;
-  
 }
 .form-field > div {
   width: 66.666%;
+}
+.form-list {
+  width: 100%;
+}
+.add__wrapper {
+  display: flex;
+  align-items: center;
+}
+.add__wrapper span{
+  margin-right: 15px;
+  
+}
+.add__button {
+  width: auto !important;
+  height: 38px !important;
+  border-radius: 4px;
+  padding: 0px;
+  min-width: 0px !important;
+  float: none;
+  cursor: pointer;
+  font-weight: 700;
+  color: #ec5504;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  background: transparent;
+}
+.add__icon {
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  order: 0;
+  margin-right: 4px;
+  margin-left: 0px;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg);
+  -webkit-mask-position: -192px -24px;
+  background-color: #ec5504 !important;
+}
+.add__button span {
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.add__table {
+  margin-top: 20px;
+  /* height: 300px; */
+}
+.add__table > div {
+  max-height: 335px;
 }

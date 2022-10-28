@@ -1,0 +1,165 @@
+.ms-popup--background {
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  padding: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 100%;
+  z-index: 10;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  opacity: 1;
+}
+
+.con-ms-popup .ms-popup {
+  position: relative;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+
+  z-index: 100;
+  width: 600px;
+  margin: 10px;
+  max-width: calc(100% - 30px);
+  max-height: calc(100% - 30px);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 20px 0 rgb(0 0 0 / 10%);
+  box-shadow: 0 5px 20px 0 rgb(0 0 0 / 10%);
+  background: #fff;
+  -webkit-animation: rebound-data-v-8c0c0dc4 0.3s;
+  animation: rebound-data-v-8c0c0dc4 0.3s;
+  overflow: visible;
+  width: 900px;
+  height: 665px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flex-col {
+  flex-direction: column !important;
+}
+
+.popup-choose-employee {
+  z-index: 20 !important;
+}
+
+.con-ms-popup {
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 20;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  padding-top: 70px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+.ms-popup--background
+  .dx-gridbase-container
+  > .dx-datagrid-rowsview.dx-scrollable {
+  height: 385.6667px !important;
+}
+
+.borderFooter {
+  border-top: 1px solid #dadce3;
+}
+
+.ms-popup--footer {
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  border-radius: 0 0 4px 4px;
+  background-color: #f2f2f2;
+}
+
+.ms-popup--background .dx-datagrid {
+  height: 100%;
+}
+
+.ms-popup--background .dx-texteditor.dx-editor-outlined {
+  margin-right: 10px;
+}
+
+.ms-popup-close {
+  transition: all 0.23s ease 0.1s;
+  position: relative;
+  border-radius: 4px;
+  font-size: 24px;
+}
+
+.mi-close {
+  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg);
+  -webkit-mask-position: -24px -48px;
+  width: 24px;
+  height: 24px;
+  -webkit-mask-repeat: no-repeat;
+  background-color: #666 !important;
+}
+
+.hover-show {
+  padding: 6px;
+}
+
+.hover-show:hover {
+  background: rgb(228, 230, 238);
+  border-radius: 50%;
+}
+
+.tool-search .dx-texteditor.dx-editor-outlined {
+  width: 240px !important;
+}
+
+.c-red {
+  color: #f84856;
+}
+
+.ms-grid-container {
+  margin-top: 20px;
+}
+
+.dx-datagrid-borders > .dx-datagrid-pager {
+}
+
+.ms-button-primary {
+  width: 80px !important;
+  height: 36px !important;
+  border-radius: 4px;
+  padding: 0px 16px;
+  min-width: 0px !important;
+  outline: none;
+  border: 1px solid #ec540e;
+  background-color: #ec540e;
+  color: #fff;
+}
+.ms-button-primary:hover {
+  background: #fa6000!important;
+  border: 1px solid #fa6000;
+
+}
+.ms-button-filled {
+  width: 80px !important;
+  height: 36px !important;
+  border-radius: 4px;
+  padding: 0px 16px;
+  min-width: 0px !important;
+  background-color: #fff;
+  color: #212121;
+  border: 1px solid #ddddeb;
+  margin-right: 8px;
+
+}
+.ms-button-filled:hover {
+  background-color: #eae6ff;
+}

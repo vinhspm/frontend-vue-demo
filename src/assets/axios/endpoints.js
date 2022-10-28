@@ -7,5 +7,9 @@ export const ENDPOINTS = {
   MULTIPLE_DELETE_EMPLOYEE: '/Employees/multiple-delete',
   EXPORT_EMPLOYEE_FILTER: '/Employees/ExportAllEmployeesFilter',
   REQUESTS_FILTER: '/Requests/filter',
-  REQUESTS: '/Requests'
+  REQUESTS: '/Requests',
+  MULTIPLE_DELETE_REQUEST: '/Requests/multiple-delete',
+  MULTIPLE_APPROVE_REQUEST:'/Requests/multiple-approve',
+  MULTIPLE_DENINE_REQUEST: '/Requests/multiple-denine',
+  EXPORT_REQUEST_FILTER: 'Requests/ExportAllRequestsFilter'
 }
