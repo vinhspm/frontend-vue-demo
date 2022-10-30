@@ -194,6 +194,9 @@ export default {
           this.selectedRequestId = paramsObj.selectedRequestId;
         }
         this.isShowDetail = !this.isShowDetail;
+        if(!this.isShowDetail) {
+          this.getData();
+        }
       } catch (err) {
         console.log(err);
       }

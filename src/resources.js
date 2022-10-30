@@ -78,9 +78,15 @@ export const REQUEST_LIST_HEADER = [
     dataField: "OverTimeInWorkingShift",
     caption: "Thời điểm làm thêm",
     width: 120,
-    cellTemplate: 'cell-workshift-name',
+    cellTemplate: 'cell-overtimeworkshift-name',
     alignment: "left",
-
+  },
+  {
+    dataField: "WorkingShift",
+    caption: "Ca làm thêm",
+    width: 150,
+    cellTemplate: 'cell-workingshift-name',
+    alignment: "left",
   },
   {
     dataField: "Reason",
@@ -131,3 +137,17 @@ export const FIELD_NAME_EN = {
   PositionId: "PositionId",
 };
 
+// message validate cho custom rule 
+export const CUSTOM_VALIDATE_MSG = {
+  BREAKTIME_FROM: {
+    NOT_NULL: 'Nghỉ giữa ca từ không được để trống khi đã nhập Nghỉ giữa ca đến',
+    INVALID_INPUT: 'Nghỉ giữa ca từ phải lớn hơn hoặc bằng Làm thêm từ'
+  },
+  BREAKTIME_TO: {
+    NOT_NULL: 'Nghỉ giữa ca đến không được để trống khi đã nhập Nghỉ giữa ca từ',
+    INVALID_INPUT: 'Nghỉ giữa ca đến phải lớn hơn hoặc bằng Nghỉ giữa ca từ'
+  },
+  TO_DATE: {
+    INVALID_INPUT: 'Làm thêm đến phải lớn hơn hoặc bằng Nghỉ giữa ca đến'
+  },
+}

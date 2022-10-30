@@ -1035,6 +1035,13 @@ export const WORK_TIME = [
     txt: "Ngày nghỉ",
   },
 ];
+export const WORK_SHIFT = 
+[
+  {
+    value: 1,
+    txt: "Ca chấm 1 lần",
+  },
+];
 //date time options
 export const DATETIME_OPTIONS = {
   cancelButtonText: "Huỷ",

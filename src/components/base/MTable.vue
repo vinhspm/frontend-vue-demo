@@ -34,8 +34,11 @@
       <template #cell-position-name="{data}">
         {{getPositionName(data)}}
       </template>
-      <template #cell-workshift-name="{data}">
-        {{getWorkShiftName(data)}}
+      <template #cell-overtimeworkshift-name="{data}">
+        {{getOverTimeWorkShiftName(data)}}
+      </template>
+      <template #cell-workingshift-name="{data}">
+        {{getWorkingShiftName(data)}}
       </template>
     </DxDataGrid>
   </div>
@@ -138,7 +141,7 @@ export default {
       }
       else return null;
     },
-    getWorkShiftName(data) {
+    getOverTimeWorkShiftName(data) {
       const workShift = this.workShifts.find(e => {
         return e.value === data.value
       })
@@ -147,7 +150,12 @@ export default {
       }
       else return null;
     },
-
+    getWorkingShiftName(data) {
+      if(data.value) {
+        return "Ca chấm 1 lần";
+      }
+      return null;
+    },
     pinColumn(pinColumnObj) {
       if (pinColumnObj.showPin) {
         // console.log(index);

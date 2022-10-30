@@ -128,7 +128,9 @@
 .ms-grid-container {
   margin-top: 20px;
 }
-
+.ms-con-input-dropdown {
+  width: 320px;
+}
 .dx-datagrid-borders > .dx-datagrid-pager {
 }
 
