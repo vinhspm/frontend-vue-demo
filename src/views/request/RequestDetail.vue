@@ -667,9 +667,11 @@ export default {
         this.selectedRequest.DepartmentId = null;
         this.selectedRequest.Employees = this.selectedEmployees.map((ele) => {
           return {
+            EmployeeId: ele.EmployeeId,
             EmployeeCode: ele.EmployeeCode,
             FullName: ele.FullName,
-            DepartmentId: ele.DepartmentId,
+            DepartmentName: this.getDepartmentName({value: ele.DepartmentId}),
+            PositionName: this.getPositionName({value: ele.PositionId}),
             Email: ele.Email,
             PhoneNumber: ele.PhoneNumber,
           };
