@@ -124,7 +124,9 @@
 .c-red {
   color: #f84856;
 }
-
+.c-blue {
+  color: #3c54f1;
+}
 .ms-grid-container {
   margin-top: 20px;
 }

@@ -133,7 +133,7 @@ export default {
     };
   },
   created() {
-    this.departmentDataSource = DEFAULT_DEPARTMENT_LIST
+    this.departmentDataSource = DEFAULT_DEPARTMENT_LIST;
     this.getData();
 
   },

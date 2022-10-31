@@ -33,7 +33,9 @@
 h2 {
   margin: 0;
 }
-
+.list__header {
+  margin-right: 16px;
+}
 .form-body {
   width: 100%;
   height: calc(100vh - 150px);

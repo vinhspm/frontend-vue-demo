@@ -288,8 +288,28 @@
               </div>
             </div>
             <div class="form-list">
-              <h3 class="list__header">DANH SÁCH NHÂN VIÊN LÀM THÊM</h3>
-              <div class="add__wrapper">
+              <div class="flex align-center">
+                <h3 class="list__header">DANH SÁCH NHÂN VIÊN LÀM THÊM</h3>
+                <div class="flex align-center" v-if="selectedRowKeys.length">
+                  <span>Đã chọn <strong>{{selectedRowKeys.length}}</strong></span>
+                  <div class="flex align-center" @click="deSelectRows">
+                    <span
+                      class="f-z-14 c-blue"
+                      style="padding-left: 16px; cursor: pointer"
+                      >Bỏ chọn</span
+                    >
+                  </div>
+                  <div class="flex align-center" @click="deleteRows">
+                    <span
+                      class="f-z-14 c-red"
+                      style="padding-left: 16px; cursor: pointer"
+                      >Loại bỏ</span
+                    >
+                  </div>
+
+                </div>
+              </div>
+              <div class="add__wrapper" v-if="viewType !== 1">
                 <span v-if="!selectedEmployees.length"
                   ><i>Chưa có dữ liệu</i></span
                 >
@@ -302,12 +322,22 @@
                   <span>Thêm</span>
                 </button>
               </div>
+              <div class="add__wrapper" v-if="viewType === 1">
+                <DxTextBox
+                  placeholder="Tìm kiếm"
+                  mode="search"
+                  valueChangeEvent="keyup"
+                  @valueChanged="filterChanged"
+                  :width="320"
+                  v-if="selectedEmployees.length"
+                />
+              </div>
               <div class="add__table" v-if="selectedEmployees.length">
                 <DxDataGrid
                   id=""
                   class="table-page"
                   :show-borders="true"
-                  :data-source="selectedEmployees"
+                  :data-source="viewType === 1 ? employeeSearch : selectedEmployees"
                   :column-auto-width="true"
                   :loadPanel="{
                     showIndicator: false,
@@ -317,23 +347,16 @@
                   key-expr="EmployeeId"
                   no-data-text="Không có dữ liệu!"
                   :hover-state-enabled="true"
+                  :readOnly="true"
+                  v-model:selected-row-keys="selectedRowKeys"
                 >
-                  <DxEditing :allow-deleting="true">
+                  <DxEditing :allow-deleting="true" v-if="viewType !== 1">
                     <DxTexts confirmDeleteMessage="" />
                   </DxEditing>
-                  <DxPaging :enabled="true" :pageSize="15" />
-                  <DxPager
-                    :visible="true"
-                    :allowed-page-sizes="[15, 25, 50, 100]"
-                    display-mode="compact"
-                    :show-page-size-selector="true"
-                    :show-info="true"
-                    :show-navigation-buttons="true"
-                    info-text="Tổng số: {2} bản ghi"
-                  />
+                  <DxPaging :enabled="false"/>
                   <DxScrolling mode="standard" row-rendering-mode="standard" />
                   <DxColumnFixing :enabled="true" />
-                  <!-- <DxSelection mode='multiple' show-check-boxes-mode='always' select-all-mode='page' /> -->
+                  <DxSelection mode='multiple' show-check-boxes-mode='always' select-all-mode='page' v-if="viewType !== 1"/>
                   <DxColumn
                     data-field="EmployeeCode"
                     caption="Mã nhân viên"
@@ -367,7 +390,6 @@
                       id="delete-button"
                       name="delete"
                       icon="trash"
-                      @click="deleteRequest"
                       css-class="command-button"
                       hint="Xoá"
                     />
@@ -451,7 +473,7 @@ import DataSource from "devextreme/data/data_source";
 import { getEmployees } from "../../assets/axios/employeeController/employeeController.js";
 import { getDepartments } from "../../assets/axios/departmentController/departmentController.js";
 import EmployeeList from "./EmployeeList.vue";
-import DxTextBox from "devextreme/ui/text_box";
+import DxTextBox from "devextreme-vue/text-box";
 import { CUSTOM_VALIDATE_MSG } from "../../resources.js";
 import { getPositions } from "../../assets/axios/positionController/positionController";
 export default {
@@ -484,7 +506,6 @@ export default {
     DxTexts,
     StatusCell,
     NameCell,
-    DxTextBox,
     EmployeeList,
   },
   created() {
@@ -524,6 +545,9 @@ export default {
       isDisableAll: false,
       customValidateMsg: CUSTOM_VALIDATE_MSG,
       statuses: lodash.cloneDeep(REQUEST_STATUS_ARRAY),
+      selectedRowKeys: [],
+      employeeSearch: [],
+      filter: "",
       buttonOptions: {
         text: "Register",
         type: "success",
@@ -557,6 +581,16 @@ export default {
       },
       immediate: true,
     },
+    "selectedRowKeys.length": {
+      handler() {
+        console.log(this.selectedRowKeys);
+      }
+    },
+    filter: {
+      handler() {
+        this.applyFilter();
+      }
+    },
     viewType: {
       handler(val) {
         if (val === DETAIL_VIEW_TYPE.EDIT || val === DETAIL_VIEW_TYPE.ADDNEW) {
@@ -587,7 +621,14 @@ export default {
     closeEmployeeList() {
       this.isShowEmployeeList = false;
     },
-
+    applyFilter: lodash.debounce(function() {
+      this.employeeSearch = this.selectedEmployees.filter((ele) => {
+          return (
+            ele.EmployeeCode.toLowerCase().includes(this.filter.toLowerCase()) ||
+            ele.FullName.toLowerCase().includes(this.filter.toLowerCase())
+          );
+        });
+    }, 500),
     onValueEmployeeChanged(event) {
       const index = this.employees.findIndex(
         (ele) => ele.EmployeeId === event.value
@@ -597,6 +638,18 @@ export default {
       } else {
         this.selectedRequest.DepartmentId = null;
       }
+    },
+    filterChanged($event) {
+      this.filter = $event.value.toLowerCase();
+    },
+    deleteRows() {
+      this.selectedEmployees = this.selectedEmployees.filter(ele => {
+        return !this.selectedRowKeys.includes(ele.EmployeeId); 
+      });
+      this.selectedRowKeys = []
+    },
+    deSelectRows() {
+      this.selectedRowKeys = []
     },
     onOverTimeInWorkShiftChange(event) {
       console.log(event);
@@ -611,6 +664,10 @@ export default {
       const res = await getRequestDetail(this.selectedRequestId);
       if (res) {
         this.selectedRequest = res.data;
+        this.selectedEmployees = this.selectedRequest.Employees;
+        if(this.viewType === DETAIL_VIEW_TYPE.DETAIL) {
+          this.employeeSearch = this.selectedEmployees;
+        }
       }
     },
 
@@ -659,8 +716,12 @@ export default {
       } else return null;
     },
     getDepartmentName(data) {
-      return this.departments.find((ele) => data.value === ele.DepartmentId)
-        .DepartmentName;
+      const department = this.departments.find((e) => {
+        return e.DepartmentId === data.value;
+      });
+      if (department) {
+        return department.DepartmentName;
+      } else return null;
     },
     async onSave() {
       try {
@@ -670,8 +731,8 @@ export default {
             EmployeeId: ele.EmployeeId,
             EmployeeCode: ele.EmployeeCode,
             FullName: ele.FullName,
-            DepartmentName: this.getDepartmentName({value: ele.DepartmentId}),
-            PositionName: this.getPositionName({value: ele.PositionId}),
+            DepartmentId: ele.DepartmentId,
+            PositionId: ele.PositionId,
             Email: ele.Email,
             PhoneNumber: ele.PhoneNumber,
           };
@@ -679,7 +740,7 @@ export default {
         console.log(this.selectedRequest.Employees);
         if (this.viewType === DETAIL_VIEW_TYPE.ADDNEW) {
           const res = await postRequest(this.selectedRequest);
-          if(res.status == 201) {
+          if (res.status == 201) {
             // this.notifyMsg(NOTIFY_TYPE.SUCCESS, "Xoá thành công");
             this.closeDialog();
           }
@@ -688,7 +749,7 @@ export default {
             this.selectedRequestId,
             this.selectedRequest
           );
-          if(res.status == 200) {
+          if (res.status == 200) {
             // this.notifyMsg(NOTIFY_TYPE.ERROR, "Xoá thành công");
             this.closeDialog();
           }
