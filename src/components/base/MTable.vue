@@ -88,12 +88,15 @@ export default {
     selectedRowKeysProp:{
       type: Array,
       default: []
+    },
+    listHeaders: {
+      Type: Array,
+      default: []
     }
   },
   data() {
     return {
       isColumnPinArray: [],
-      listHeaders: [],
       isShowPinIcon: [],
       departments: [],
       positions: [],
@@ -103,7 +106,6 @@ export default {
   },
   created() {
     this.isColumnPinArray = new Array(NUM_PIN_COLUMNS).fill(false);
-    this.listHeaders = lodash.cloneDeep(REQUEST_LIST_HEADER);
     this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
     this.getDepartmentAndPositionData();
   },

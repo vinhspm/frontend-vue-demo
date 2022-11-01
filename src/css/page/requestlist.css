@@ -238,7 +238,7 @@ table {
   -webkit-mask-position: -24px -24px;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg);
-  background-color: #666!important;
+  background-color: #666 !important;
 }
 .delete-all-button {
   background-color: #fff;
@@ -262,5 +262,63 @@ table {
   position: relative;
   width: 24px;
   height: 24px;
-  background: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) -168px -24px no-repeat;
+  background: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) -168px -24px
+    no-repeat;
+}
+.mi-tooltip {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+
+  /* padding: 0; */
+}
+.content-container {
+  width: 334px !important;
+  height: 443px !important;
+}
+.setting__controller {
+  padding: 12px;
+}
+.setting-header {
+  margin-bottom: 12px;
+}
+.setting__controller .title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.324px;
+  color: #1f2023;
+  margin: 0;
+}
+.list-group-wrap {
+  padding: 4px 0;
+  border-bottom: 1px solid #e3e5ee;
+  overflow: auto;
+  height: 310px;
+}
+.drag-item {
+  border-radius: 6px;
+  padding: 8px 6px 8px 10px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.drag-item:hover {
+  background: #ebf0ff;
+}
+.columnName {
+  margin-left: 10px;
+  width: 154px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+.mi-drag {
+  width: 24px;
+  height: 24px;
+  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg);
+  -webkit-mask-position: -312px -72px;
+  background-color: #686c7b !important;
+  -webkit-mask-repeat: no-repeat;
 }

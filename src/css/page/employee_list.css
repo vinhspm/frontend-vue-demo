@@ -106,6 +106,7 @@
   height: 24px;
   -webkit-mask-repeat: no-repeat;
   background-color: #666 !important;
+  cursor: pointer;
 }
 
 .hover-show {

@@ -50,7 +50,9 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
-
+.w-100 {
+  width: 100%;
+}
 .col {
   width: 46.6667%;
   display: flex;
@@ -64,7 +66,6 @@ body {
 .justify-between {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 .justify-around {
   display: flex;
@@ -393,9 +394,6 @@ body
 .dx-datagrid-borders > .dx-datagrid-filter-panel, .dx-datagrid-borders > .dx-datagrid-headers {
   border-top: none;
 }
-.dx-datagrid-borders > .dx-datagrid-rowsview, .dx-datagrid-borders > .dx-datagrid-total-footer {
-  border-bottom: none;
-}
 #app
   > div.main
   > div
@@ -421,6 +419,8 @@ span.dx-checkbox-icon {
   background-position: 0 0;
   background-size: cover;
   background-repeat: no-repeat;
+  width: 18px!important;
+  height: 18px!important;
 }
 .dx-checkbox-container {
   display: flex;
@@ -524,4 +524,7 @@ span.dx-checkbox-icon {
 .dx-treeview-item {
   margin: 0 0 2px 6px;
   border-radius: 4px;
+}
+.dx-tooltip-wrapper .dx-overlay-content .dx-popup-content {
+  padding: 8px!important;
 }

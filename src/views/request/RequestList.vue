@@ -48,17 +48,80 @@
 
         </div>
 
-        <div class="btn-sidebar" @click="refreshData">
+        <div class="btn-sidebar" @click="refreshData" id="refresh">
           <div class="mi-refresh"></div>
+          <DxTooltip target="#refresh" show-event="dxhoverstart" hide-event="dxhoverend"
+            contentTemplate="refresh-tooltip">
+            <template #refresh-tooltip>
+              <p class="mi-tooltip">Tải lại</p>
+            </template>
+          </DxTooltip>
         </div>
-        <div class="btn-sidebar">
+        <div class="btn-sidebar" id="filter">
           <div class="mi-filter"></div>
+          <DxTooltip target="#filter" show-event="dxhoverstart" hide-event="dxhoverend"
+            contentTemplate="filter-tooltip">
+            <template #filter-tooltip>
+              <p class="mi-tooltip">Bộ lọc</p>
+            </template>
+          </DxTooltip>
         </div>
-        <div class="btn-sidebar" @click="exportAllFilterData">
+        <div class="btn-sidebar" @click="exportAllFilterData" id="export">
           <div class="mi-export"></div>
+          <DxTooltip target="#export" show-event="dxhoverstart" hide-event="dxhoverend"
+            contentTemplate="export-tooltip">
+            <template #export-tooltip>
+              <p class="mi-tooltip">Xuất khẩu</p>
+            </template>
+          </DxTooltip>
         </div>
-        <div class="btn-sidebar">
-          <div class="mi-setting"></div>
+        <div class="btn-sidebar" id="setting">
+          <div class="mi-setting">
+
+          </div>
+          <DxTooltip target="#setting" show-event="dxhoverstart" hide-event="dxhoverend"
+            contentTemplate="setting-tooltip">
+            <template #setting-tooltip>
+              <p class="mi-tooltip">Tuỳ chỉnh cột</p>
+            </template>
+          </DxTooltip>
+          <DxPopover target="#setting"  show-event="dxclick" v-model:visible="isSettingVisible" 
+            contentTemplate="settingColumns">
+            <template #settingColumns>
+              <div class="content-container">
+                <div class="setting__controller">
+                  <div class="flex justify-between setting-header">
+                    <p class="title">Tuỳ chỉnh cột</p>
+                    <i class="mi-close" @click="hideSettingController"></i>
+                  </div>
+                  <DxTextBox placeholder="Tìm kiếm" mode="search" valueChangeEvent="keyup" :show-clear-button="false"
+                    @valueChanged="" />
+                </div>
+                <div class="list-group-wrap">
+                  <DxScrollView :scroll-by-thumb="true">
+                    <div style="min-height: 100%">
+                      <Draggable v-model="listHeadersClone">
+                        <template v-slot:item="{ item }">
+                          <div class="drag-item">
+                            <div class="flex align-center justify-between w-100" >
+                              <div class="flex align-center">
+                                <input type="checkbox" v-model="listHeadersVisible" name="listHeadersVisible" :value="item.dataField" />
+                                <div class="columnName">
+                                  {{ item.caption }}
+                                </div>
+                              </div>
+                              <i class="mi-drag"></i>
+                            </div>
+                          </div>
+                        </template>
+                      </Draggable>
+                    </div>
+                  </DxScrollView>
+                </div>
+              </div>
+            </template>
+
+          </DxPopover>
         </div>
       </div>
     </div>
@@ -76,7 +139,7 @@
     </div>
     <m-table :dataSource="requestLists" @toggle-dialog="toggleDialog($event)" @delete-request="deleteRequest($event)"
       @update:selectedRowKeys="updateSeletectedRows" :selectedRowKeysProp="selectedRowKeys"
-      @update:departments="event => this.departments = event"></m-table>
+      @update:departments="event => this.departments = event" :listHeaders="listHeaders"></m-table>
     <m-paging :recordPerPageProps="params.pageSize" :totalRecord="totalRecord" :currentPageProp="params.pageNumber"
       @update:recordPerPage="params.pageSize = $event" @update:currentPage="params.pageNumber = $event"
       :totalPage="totalPage"></m-paging>
@@ -97,6 +160,9 @@ import {
   approveMultipleRequests,
   exportAllRequestsFilter
 } from "../../assets/axios/requestController/requestController.js";
+import Draggable from "vue3-draggable";
+import DxCheckBox from 'devextreme-vue/check-box';
+import { DxTooltip } from 'devextreme-vue/tooltip';
 import lodash from "lodash";
 import DxDropDownBox from 'devextreme-vue/drop-down-box';
 import DxTreeView, { DxSearchEditorOptions } from 'devextreme-vue/tree-view';
@@ -107,12 +173,30 @@ import {
   NOTIFY_TYPE,
   DEFAULT_DEPARTMENT_LIST,
 } from "../../enum.js";
+import { REQUEST_LIST_HEADER } from '../../resources.js'
 import RequestDetail from "./RequestDetail.vue";
 import { custom } from "devextreme/ui/dialog";
 import notify from "devextreme/ui/notify";
+import DxTextBox from "devextreme-vue/text-box";
+import { DxScrollView } from 'devextreme-vue/scroll-view';
+import { DxPopover } from 'devextreme-vue/popover';
 export default {
   name: "RequestList",
-  components: { RequestDetail, DxSelectBox, DxLoadPanel, DxDropDownBox, DxTreeView, DxDropDownOptions, DxSearchEditorOptions },
+  components: {
+    RequestDetail,
+    DxSelectBox,
+    DxLoadPanel,
+    DxDropDownBox,
+    DxTreeView,
+    DxDropDownOptions,
+    DxSearchEditorOptions,
+    DxTooltip,
+    DxTextBox,
+    DxScrollView,
+    Draggable,
+    DxCheckBox,
+    DxPopover
+  },
   data() {
     return {
       requestLists: [],
@@ -130,12 +214,16 @@ export default {
       selectedRowKeys: [],
       departmentDataSource: null,
       isTreeBoxOpened: false,
+      listHeaders: [],
+      listHeadersClone: [],
+      listHeadersVisible: [],
+      isSettingVisible: false,
     };
   },
   created() {
     this.departmentDataSource = DEFAULT_DEPARTMENT_LIST;
     this.getData();
-
+    this.listHeaders = lodash.cloneDeep(REQUEST_LIST_HEADER);
   },
   watch: {
     "params.requestFilter": {
@@ -164,8 +252,35 @@ export default {
         this.getData();
       },
     },
+    listHeaders: {
+      handler() {
+        this.listHeadersClone = this.listHeaders;
+        this.listHeaders.forEach(ele => {
+          this.listHeadersVisible.push(ele.dataField)
+        })
+      },
+      immediate: true,
+      deep: true
+    },
+    listHeadersVisible: {
+      handler() {
+        console.log(this.listHeadersVisible);
+      },
+      deep: true
+    },
+    listHeadersClone: {
+      handler() {
+        console.log(this.listHeadersClone);
+      }
+    }
   },
   methods: {
+
+    /**
+     * lấy data cho bảng 
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     async getData() {
       const requests = await getRequestsFilter(this.params);
       if (requests.status == 200) {
@@ -174,14 +289,32 @@ export default {
         this.totalPage = requests.data.TotalPage;
       }
     },
+
+    /**
+     * lấy data theo trường tìm kiếm
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     getDataSearch: lodash.debounce(function () {
       this.params.pageNumber = 1;
       this.getData();
     }, 500),
+
+    /**
+     * reload lại dữ liệu
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     refreshData() {
       this.params = lodash.cloneDeep(DEFAULT_PARAMS);
       this.getData();
     },
+
+    /**
+     * ẩn hiện popup chi tiết yêu cầu
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     toggleDialog(paramsObj) {
       try {
         if (!paramsObj) {
@@ -194,16 +327,28 @@ export default {
           this.selectedRequestId = paramsObj.selectedRequestId;
         }
         this.isShowDetail = !this.isShowDetail;
-        if(!this.isShowDetail) {
+        if (!this.isShowDetail) {
           this.getData();
         }
       } catch (err) {
         console.log(err);
       }
     },
+
+    /**
+     * cập nhật những yêu cầu được chọn
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     updateSeletectedRows(event) {
       this.selectedRowKeys = event;
     },
+
+    /**
+     * mở dialog chi tiết yêu cầu
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     openDialog(params) {
       this.isShowDetail = false;
       if (params && params.type === DETAIL_VIEW_TYPE.EDIT) {
@@ -212,15 +357,48 @@ export default {
       }
       this.isShowDetail = true;
     },
+
+    /**
+     * cập nhật đơn vị được chọn trên filter
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     treeView_itemSelectionChanged(e) {
       this.params.departmentId = e.itemData.DepartmentId;
     },
+
+    /**
+     * đóng selectbox đơn vị
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     onTreeItemClick() {
       this.isTreeBoxOpened = false;
     },
+
+    /**
+     * bỏ chọn tất cả hàng
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     deSelectRows() {
       this.selectedRowKeys = [];
     },
+
+    /**
+     * ẩn cài đặt cột
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    hideSettingController() {
+      this.isSettingVisible = false;
+    },
+
+    /**
+     * xuất excel data theo filter
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     async exportAllFilterData() {
       this.isLoading = true;
       try {
@@ -250,6 +428,12 @@ export default {
         this.isLoading = false;
       }
     },
+
+    /**
+     * từ chối hàng loạt các yêu cầu
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     multipleDenine() {
       this.$nextTick(function () {
         let myDialog = custom({
@@ -294,6 +478,12 @@ export default {
         });
       });
     },
+
+    /**
+     * duyệt hàng loạt yêu cầu
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     multipleApprove() {
       this.$nextTick(function () {
         let myDialog = custom({
@@ -338,6 +528,12 @@ export default {
         });
       });
     },
+
+    /**
+     * xoá hàng loạt yêu cầu
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     multipleDelete() {
       this.$nextTick(function () {
         let myDialog = custom({
@@ -381,6 +577,12 @@ export default {
         });
       });
     },
+
+    /**
+     * xoá yêu cầu theo id
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     deleteRequest(requestId) {
       this.$nextTick(function () {
         let myDialog = custom({
@@ -420,12 +622,18 @@ export default {
         });
       });
     },
+
+    /**
+     * toast thông báo
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     notifyMsg(type, message) {
       notify(
         {
           message: message,
           width: 230,
-          height: 36,
+          height: 40,
           position: {
             at: "bottom right",
             my: "bottom right",

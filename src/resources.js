@@ -1,5 +1,3 @@
-import {GENDER_DATA} from './enum.js'
-
 // text cảnh báo
 export const WARNING_TXT = {
   DELETE: "Bạn có thực sự muốn xoá ",

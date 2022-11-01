@@ -7,12 +7,12 @@
           style="padding: 16px 24px; height: calc(100% - 68px) !important"
         >
           <div class="content-header p-b-16">
-            <div class="flex justify-between">
+            <div class="flex justify-between align-center">
               <div class="flex" style="align-items: center">
                 <h2>Chọn nhân viên</h2>
               </div>
               <div
-                class="hover-show flex justify-between items-center"
+                class="hover-show flex justify-between align-center items-center"
                 @click="closeDialog"
               >
                 <i
@@ -260,9 +260,20 @@ export default {
     },
   },
   methods: {
+    /**
+     * kích hoạt đóng pop up
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     closeDialog() {
       this.$emit("close-employee-list");
     },
+
+    /**
+     * filter danh sách nhân viên
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     applyFilter: lodash.debounce(function() {
       this.employeeSearch = this.employees.filter((ele) => {
           return (
@@ -276,26 +287,68 @@ export default {
           });
         }
     }, 500),
+
+    /**
+     * kích hoạt sự kiện ấn chọn nhân viên
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     selectButtonClicked() {
       this.$emit("update:selectedRows", this.selectedRowKeys);
       this.closeDialog();
     },
+
+    /**
+     * bỏ chọn một hàng trong bảng
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     deSelectRows() {
       this.selectedRowKeys = [];
     },
+
+    /**
+     * trả về tên đơn vị theo id
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     getDepartmentName(data) {
       return this.departments.find((ele) => data.value === ele.DepartmentId)
         .DepartmentName;
     },
+
+    /**
+     * gán giá trị cho selectbox đơn vị
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     treeView_itemSelectionChanged(e) {
       this.params.departmentId = e.itemData.DepartmentId;
     },
+
+    /**
+     * đóng selectbox đơn vị
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     onTreeItemClick() {
       this.isTreeBoxOpened = false;
     },
+
+    /**
+     * gán giá trị cho filter 
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     filterChanged($event) {
       this.params.filter = $event.value.toLowerCase();
     },
+
+    /**
+     * trả về tên vị trí theo id
+     * author: vinhkt
+     * created: 01/11/2022
+     */
     getPositionName(data) {
       const position = this.positions.find((e) => {
         return e.PositionId === data.value;
