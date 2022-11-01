@@ -85,7 +85,7 @@
               <p class="mi-tooltip">Tuỳ chỉnh cột</p>
             </template>
           </DxTooltip>
-          <DxPopover target="#setting"  show-event="dxclick" v-model:visible="isSettingVisible" 
+          <DxPopover target="#setting" show-event="dxclick" v-model:visible="isSettingVisible"
             contentTemplate="settingColumns">
             <template #settingColumns>
               <div class="content-container">
@@ -103,9 +103,10 @@
                       <Draggable v-model="listHeadersClone">
                         <template v-slot:item="{ item }">
                           <div class="drag-item">
-                            <div class="flex align-center justify-between w-100" >
+                            <div class="flex align-center justify-between w-100">
                               <div class="flex align-center">
-                                <input type="checkbox" v-model="listHeadersVisible" name="listHeadersVisible" :value="item.dataField" />
+                                <input type="checkbox" v-model="listHeadersVisible" name="listHeadersVisible"
+                                  :value="item.dataField" />
                                 <div class="columnName">
                                   {{ item.caption }}
                                 </div>
@@ -341,7 +342,20 @@ export default {
      * created: 01/11/2022
      */
     updateSeletectedRows(event) {
-      this.selectedRowKeys = event;
+      if (event.clear) {
+        this.selectedRowKeys.forEach((element, index) => {
+          if (event.data.includes(element)) {
+            this.selectedRowKeys.splice(index, 1);
+          }
+        });
+      } else {
+        event.forEach(element => {
+          if (!this.selectedRowKeys.includes(element)) {
+            this.selectedRowKeys.push(element);
+          }
+        });
+      }
+
     },
 
     /**

@@ -1,7 +1,8 @@
 <template>
   <div class="table__content_body">
-    <DxDataGrid id="dataGrid" :data-source="dataSource" key-expr="OverTimeId" :column-width="100" 
-      :hover-state-enabled="true" @row-click="detailRequest" no-data-text='Không có dữ liệu!' v-model:selected-row-keys="selectedRowKeys">
+    <DxDataGrid id="dataGrid" :data-source="dataSource" key-expr="OverTimeId" :column-width="100"
+      :hover-state-enabled="true" @row-click="detailRequest" no-data-text='Không có dữ liệu!'
+      v-model:selected-row-keys="selectedRowKeys">
       <DxEditing :allow-updating="true" :allow-deleting="true" />
       <DxScrolling column-rendering-mode="virtual" />
       <DxPaging :enabled="false" />
@@ -11,7 +12,7 @@
       <DxColumn v-for="(col, index) in listHeaders" :data-field="col.dataField" :caption="col.caption"
         :width="col.width" header-cell-template="cell-header" :data-type="col.dataType ? col.dataType : ''"
         :format="col.format ? col.format : ''" :alignment="col.alignment ? col.alignment : ''"
-        :fixed="isColumnPinArray[index]" :cell-template="col.cellTemplate?col.cellTemplate: ''" />
+        :fixed="isColumnPinArray[index]" :cell-template="col.cellTemplate ? col.cellTemplate : ''" />
       <DxColumn :width="110" data-field="Status" caption="Trạng thái" cell-template="status-cell-template"
         alignment="left" />
       <DxColumn type="buttons" :width="100" caption="">
@@ -25,20 +26,14 @@
       <template #status-cell-template="{ data }">
         <StatusCell :cell-data="data" />
       </template>
-      <template #cell-avatar-name="{data}">
+      <template #cell-avatar-name="{ data }">
         <NameCell :cell-data="data" />
       </template>
-      <template #cell-department-name="{data}">
-        {{getDepartmentName(data)}}
+      <template #cell-overtimeworkshift-name="{ data }">
+        {{ getOverTimeWorkShiftName(data) }}
       </template>
-      <template #cell-position-name="{data}">
-        {{getPositionName(data)}}
-      </template>
-      <template #cell-overtimeworkshift-name="{data}">
-        {{getOverTimeWorkShiftName(data)}}
-      </template>
-      <template #cell-workingshift-name="{data}">
-        {{getWorkingShiftName(data)}}
+      <template #cell-workingshift-name="{ data }">
+        {{ getWorkingShiftName(data) }}
       </template>
     </DxDataGrid>
   </div>
@@ -85,7 +80,7 @@ export default {
       type: Object,
       default: [],
     },
-    selectedRowKeysProp:{
+    selectedRowKeysProp: {
       type: Array,
       default: []
     },
@@ -101,7 +96,8 @@ export default {
       departments: [],
       positions: [],
       workShifts: WORK_TIME,
-      selectedRowKeys: []
+      selectedRowKeys: [],
+      listRowKeys: [],
     };
   },
   created() {
@@ -111,16 +107,51 @@ export default {
   },
 
   watch: {
-    "selectedRowKeys.length": {
-      handler() {
-        this.$emit('update:selectedRowKeys', this.selectedRowKeys);
-      }
+    selectedRowKeys: {
+      handler(newVal, oldVal) {
+        if (newVal.length < oldVal.length) {
+          if (!this.listRowKeys.includes(oldVal[0])) {
+            return;
+          }
+
+          const unCheckedRows = oldVal.filter(ele => {
+            return !newVal.includes(ele)
+          })
+          const emitObj = {
+            data: unCheckedRows,
+            clear: true
+          }
+          this.$emit('update:selectedRowKeys', emitObj);
+        } else {
+          this.$emit('update:selectedRowKeys', this.selectedRowKeys);
+        }
+      },
+      deep: true,
+      // immediate: true
     },
-    "selectedRowKeysProp.length": {
+    selectedRowKeysProp: {
       handler() {
-        this.selectedRowKeys = this.selectedRowKeysProp;
+        if (this.selectedRowKeysProp.length === 0) {
+          this.selectedRowKeys = [];
+        }
       },
       immediate: true,
+      deep: true
+    },
+    dataSource: {
+      handler() {
+        this.listRowKeys = this.dataSource.map(ele => {
+          return ele.OverTimeId;
+        })
+        if (this.selectedRowKeysProp) {
+          this.selectedRowKeysProp.forEach(ele => {
+            if (this.listRowKeys.includes(ele))
+              this.selectedRowKeys.push(ele);
+          })
+        }
+      },
+      deep: true,
+      immmediate: true
     }
   },
 
@@ -153,7 +184,7 @@ export default {
       else return null;
     },
     getWorkingShiftName(data) {
-      if(data.value) {
+      if (data.value) {
         return "Ca chấm 1 lần";
       }
       return null;

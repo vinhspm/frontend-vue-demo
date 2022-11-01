@@ -36,16 +36,14 @@ export const REQUEST_LIST_HEADER = [
     cellTemplate: 'cell-avatar-name'
   },
   {
-    dataField: "PositionId",
+    dataField: "PositionName",
     caption: "Vị trí công việc",
     width: 170,
-    cellTemplate: 'cell-position-name'
   },
   {
-    dataField: "DepartmentId",
+    dataField: "DepartmentName",
     caption: "Đơn vị công tác",
     width: 220,
-    cellTemplate: 'cell-department-name'
 
   },
   {

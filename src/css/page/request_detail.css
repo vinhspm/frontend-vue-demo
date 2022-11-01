@@ -69,7 +69,9 @@ h2 {
   display: flex;
   align-items: center;
   height: 36px;
-  margin-top: 4px;
+}
+label ~ * {
+  margin-top: 0px!important;
 }
 .form-field > div {
   width: 66.666%;

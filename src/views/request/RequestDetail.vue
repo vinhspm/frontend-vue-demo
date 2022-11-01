@@ -12,7 +12,7 @@
           <button class="btn btn--save" @click="editRequest">Sửa</button>
         </div>
         <div class="flex" v-if="viewType === 2 || viewType === 3">
-          <button class="btn btn--cancel" @click="closeDialog">Huỷ</button>
+          <button class="btn btn--cancel" type="button" @click="closeDialog">Huỷ</button>
 
           <DxButton text="Lưu" class="btn btn--save" @click="buttonSaveClicked" />
         </div>
@@ -26,10 +26,8 @@
                 <DxSelectBox :data-source="employeesSource" v-model:value="selectedRequest.EmployeeId"
                   display-expr="FullName" value-expr="EmployeeId" search-enabled="true" search-mode="contains"
                   search-expr="FullName" :search-timeout="200" item-template="item"
-                  @value-changed="onValueEmployeeChanged" placeholder="" :disabled="viewType !== 3 || isDisableAll">
-                  <!-- ref="fullNameRef" :deferRendering="false" :onContentReady="( e) => {
-                    e.component.focus();
-                  }" -->
+                  @value-changed="onValueEmployeeChanged" placeholder="" :disabled="viewType !== 3 || isDisableAll"
+                  v-if="viewType !== 1" id="fullname" :deferRendering="false" :onContentReady="selectboxEmployeeReady">
                   <DxValidator>
                     <DxRequiredRule :message="notNullMsg" />
                   </DxValidator>
@@ -37,11 +35,14 @@
                     <NameCell :cell-data="data.FullName" />
                   </template>
                 </DxSelectBox>
+                <DxTextBox :value="selectedRequest.FullName" :disabled="isDisableAll" v-if="viewType === 1" />
               </div>
               <div class="form-field">
                 <label class="input--label"><b>Đơn vị công tác</b></label>
                 <DxSelectBox :data-source="departments" v-model:value="selectedRequest.DepartmentId" disabled="true"
-                  display-expr="DepartmentName" value-expr="DepartmentId" placeholder="" />
+                  display-expr="DepartmentName" value-expr="DepartmentId" placeholder="" v-if="viewType !== 1" />
+                <DxTextBox :value="selectedRequest.DepartmentName" :disabled="isDisableAll" v-if="viewType === 1" />
+
               </div>
               <div class="form-field">
                 <label class="input--label"><b>Ngày nộp đơn</b><span class="input--required">*</span></label>
@@ -130,15 +131,17 @@
             <div class="col">
               <div class="form-field">
                 <label><b>Lý do làm thêm</b><span class="input--required">*</span></label>
-                <DxTextArea :height="90" v-model:value="selectedRequest.Reason" :disabled="isDisableAll">
+                <DxTextArea :height="90" v-model:value="selectedRequest.Reason" :disabled="isDisableAll"
+                  v-if="viewType !== 1">
                   <DxValidator :height="85">
                     <DxRequiredRule :message="notNullMsg" />
                   </DxValidator>
                 </DxTextArea>
+                <DxTextBox v-model:value="selectedRequest.Reason" :disabled="isDisableAll" v-if="viewType === 1" />
               </div>
               <div class="form-field">
                 <label><b>Người duyệt</b><span class="input--required">*</span></label>
-                <DxSelectBox :data-source="employeesSource" v-model:value="selectedRequest.ApprovalToId"
+                <DxSelectBox :data-source="employeesSourceClone" v-model:value="selectedRequest.ApprovalToId"
                   display-expr="FullName" value-expr="EmployeeId" search-enabled="true" search-mode="contains"
                   search-expr="FullName" :search-timeout="200" item-template="item" placeholder=""
                   :disabled="isDisableAll">
@@ -224,10 +227,6 @@
                 </DxDataGrid>
               </div>
             </div>
-          </div>
-
-          <div class="form-note p-24">
-            <h2>Ghi chú</h2>
           </div>
         </DxScrollView>
       </div>
@@ -326,6 +325,15 @@ export default {
           paginate: true,
           pageSize: 10,
         });
+        this.employeesSourceClone = new DataSource({
+          store: {
+            type: "array",
+            key: "EmployeeId",
+            data: this.employees,
+          },
+          paginate: true,
+          pageSize: 10,
+        });
       },
       immediate: true,
     },
@@ -359,13 +367,14 @@ export default {
     },
   },
   methods: {
-    
+
     /**
      * kích hoạt sự kiện đóng form detail
      * author: vinhkt
      * created: 01/11/2022
      */
     closeDialog() {
+      console.log('close');
       this.$emit("close-dialog");
     },
 
@@ -412,6 +421,8 @@ export default {
       );
       if (index > -1) {
         this.selectedRequest.DepartmentId = this.employees[index].DepartmentId;
+        
+        //cập nhật bảng nhân viên làm thêm
         if (!this.selectedEmployees.length && this.viewType !== DETAIL_VIEW_TYPE.DETAIL) {
           this.changeSelectedEmployees([event.value])
         }
@@ -563,6 +574,10 @@ export default {
       } else return null;
     },
 
+    selectboxEmployeeReady(e) {
+      this.$nextTick(() => e.component.focus())
+    },
+
     /**
      * toast thông báo
      * author: vinhkt
@@ -691,6 +706,15 @@ export default {
       selectedEmployees: [],
       isShowEmployeeList: false,
       employeesSource: new DataSource({
+        store: {
+          type: "array",
+          key: "EmployeeId",
+          data: [],
+        },
+        paginate: true,
+        pageSize: 10,
+      }),
+      employeesSourceClone: new DataSource({
         store: {
           type: "array",
           key: "EmployeeId",

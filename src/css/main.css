@@ -282,7 +282,7 @@ label ~ * {
   box-shadow: inset 0 0 0 1px #bebebe, inset 0 0 0 1000px #ec5504 !important;
 }
 .dx-datagrid-rowsview .dx-row.dx-selection,
-.dx-row.dx-selection:not(.dx-row-focused) td{
+.dx-row.dx-selection:not(.dx-row-focused) td {
   visibility: visible;
   border-bottom: 1px solid #e0e0e0 !important;
 }
@@ -371,7 +371,7 @@ body
   .command-button,
 .dx-data-row.dx-state-hover:not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row)
   .dx-command-edit {
-  visibility: visible!important;
+  visibility: visible !important;
 }
 .dx-datagrid
   .dx-datagrid-content
@@ -391,7 +391,8 @@ body
 .dx-icon-trash::before {
   color: #ff0000;
 }
-.dx-datagrid-borders > .dx-datagrid-filter-panel, .dx-datagrid-borders > .dx-datagrid-headers {
+.dx-datagrid-borders > .dx-datagrid-filter-panel,
+.dx-datagrid-borders > .dx-datagrid-headers {
   border-top: none;
 }
 #app
@@ -419,8 +420,8 @@ span.dx-checkbox-icon {
   background-position: 0 0;
   background-size: cover;
   background-repeat: no-repeat;
-  width: 18px!important;
-  height: 18px!important;
+  width: 18px !important;
+  height: 18px !important;
 }
 .dx-checkbox-container {
   display: flex;
@@ -495,7 +496,7 @@ span.dx-checkbox-icon {
   left: -4px;
   width: 24px;
   height: 24px;
-  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg)!important;
+  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
   background-color: #666;
 }
 .dx-treeview-toggle-item-visibility {
@@ -509,11 +510,11 @@ span.dx-checkbox-icon {
   -o-mask-position: -288px -48px;
   mask-position: -288px -48px;
   margin-right: 6px;
-  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg)!important;
-  -moz-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg)!important;
-  -ms-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg)!important;
-  -o-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg)!important;
-  mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg)!important;
+  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
+  -moz-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
+  -ms-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
+  -o-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
+  mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
   -webkit-mask-repeat: no-repeat;
   -moz-mask-repeat: no-repeat;
   -ms-mask-repeat: no-repeat;
@@ -526,5 +527,116 @@ span.dx-checkbox-icon {
   border-radius: 4px;
 }
 .dx-tooltip-wrapper .dx-overlay-content .dx-popup-content {
-  padding: 8px!important;
+  padding: 8px !important;
+}
+
+.dx-dropdowneditor-icon:not(.dx-datebox-calendar .dx-dropdowneditor-icon),
+.dx-dropdowneditor.dx-dropdowneditor-active
+  .dx-dropdowneditor-icon:not(.dx-datebox-calendar .dx-dropdowneditor-icon) {
+  -webkit-mask-image: url(https://testcdnamisapp.misa.vn/apps/timesheet/static/img/Icon.b444e1e.svg) !important;
+  width: 24px;
+  height: 24px;
+  -webkit-mask-position: -192px 0;
+  background-color: #666 !important;
+  margin-right: 0;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: 1px solid transparent;
+  color: #333;
+}
+.dx-dropdowneditor-button .dx-button-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.dx-state-disabled .dx-dropdowneditor-icon {
+  display: none;
+}
+.dx-state-disabled .dx-widget,
+.dx-state-disabled.dx-widget {
+  border: 1px solid transparent;
+  border-bottom: 1px solid #ddd;
+  opacity: 1;
+}
+.dx-state-disabled .dx-widget,
+.dx-state-disabled.dx-widget .dx-dropdowneditor-button {
+  border: 1px solid transparent;
+}
+#app
+  > div.main
+  > div
+  > div.detail-form-wrapper
+  > form
+  > div.form-body
+  > div
+  > div.dx-scrollable-wrapper
+  > div
+  > div.dx-scrollable-content
+  > div.dx-scrollview-content
+  > div
+  > div:nth-child(1)
+  > div:nth-child(1)
+  > div.dx-state-disabled ,
+#app
+  > div.main
+  > div
+  > div.detail-form-wrapper
+  > form
+  > div.form-body
+  > div
+  > div.dx-scrollable-wrapper
+  > div
+  > div.dx-scrollable-content
+  > div.dx-scrollview-content
+  > div
+  > div:nth-child(1)
+  > div:nth-child(2)
+  > div{
+    border: 1px solid #ddd;
+    color: #6e6a67;
+    background-color: #ebebeb;
+    /* opacity: 1; */
+}
+body > div.dx-dialog.dx-overlay.dx-popup.dx-widget.dx-visibility-change-handler > div > div {
+  width: 415px;
+  height: 190px;
+  transform: translate(490px, 86px) scale(1)!important;
+}
+.dx-button-mode-contained.dx-button-danger {
+  background-color: #e02915;
+}
+.dx-popup-title.dx-toolbar .dx-toolbar-label {
+  letter-spacing: 0.576px;
+  font-size: 24px;
+  color: rgb(33, 33, 33);
+  max-width: 200px!important;
+  font-weight: 700;
+}
+.dx-popup-title{
+  border: none;
+}
+.dx-popup-title.dx-toolbar {
+  padding-top: 24px;
+
+}
+.dx-popup-bottom.dx-toolbar {
+  height: 68px;
+  background-color: #f2f2f2;
+}
+.dx-toolbar-after, .dx-toolbar-before, .dx-toolbar-center {
+  margin-right: 0px!important;
+}
+.dx-item.dx-toolbar-item.dx-toolbar-button {
+  width: 80px;
+  height: 36px;
+  border-radius: 4px;
+}
+.dx-overlay-shader {
+  background: rgba(0,0,0,.4);
 }

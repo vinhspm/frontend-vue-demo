@@ -55,6 +55,7 @@ select:focus,
 
 .input--required {
   color: red;
+  margin-left: 2px;
 }
 
 .invalidInput {
