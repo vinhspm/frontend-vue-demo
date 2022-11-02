@@ -136,9 +136,26 @@
 }
 .dx-datagrid-borders > .dx-datagrid-pager {
 }
+.ms-button-cancel {
+  width: 90px !important;
+  height: 36px !important;
+  border-radius: 4px;
+  padding: 0px 16px;
+  min-width: 0px !important;
+  outline: none;
+  border: 1px solid #ddddeb;
+  background-color: #fff;
+  color: #212121;
+  font-weight: 500;
 
+}
+.ms-button-cancel:hover {
+  background-color: #eae6ff;
+  color: #1f1f23;
+  border: 1px solid #ddddeb;
+}
 .ms-button-primary {
-  width: 80px !important;
+  width: 90px !important;
   height: 36px !important;
   border-radius: 4px;
   padding: 0px 16px;
@@ -147,11 +164,17 @@
   border: 1px solid #ec540e;
   background-color: #ec540e;
   color: #fff;
+  font-weight: 500;
 }
 .ms-button-primary:hover {
-  background: #fa6000!important;
+  background: #fa6000;
   border: 1px solid #fa6000;
 
+}
+.ms-button-primary:disabled {
+  color: hsla(0,0%, 100%, .56);
+  background-color: rgba(236,85,4,.56);
+  cursor: not-allowed;
 }
 .ms-button-filled {
   width: 80px !important;

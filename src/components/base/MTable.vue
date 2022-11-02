@@ -54,12 +54,187 @@ import Tooltip from "devextreme/ui/tooltip"
 import StatusCell from "./StatusCell.vue";
 import HeaderCell from "./HeaderCell.vue";
 import NameCell from "./NameCell.vue";
-import { getDepartments } from "../../assets/axios/departmentController/departmentController.js";
-import { getPositions } from "../../assets/axios/positionController/positionController.js";
 import { NUM_PIN_COLUMNS, DETAIL_VIEW_TYPE, WORK_TIME } from "../../enum.js";
 import { REQUEST_LIST_HEADER } from "../../resources.js";
 import lodash from "lodash";
 export default {
+  
+  /**
+   * khởi tạo giá trị ban đầu cho bảng
+   */
+  created() {
+    this.isColumnPinArray = new Array(NUM_PIN_COLUMNS).fill(false);
+    this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
+  },
+
+  watch: {
+    /**
+     * kích hoạt sự kiệN update những hàng được chọn khi có thay đổi
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    selectedRowKeys: {
+      handler(newVal, oldVal) {
+        
+        // console.log(oldVal);
+        // console.log(newVal);
+        if (newVal.length < oldVal.length) {
+          const index = this.listRowKeys.findIndex(ele => ele === oldVal[0])
+          if (index === -1) {
+            return;
+          }
+
+          const unCheckedRows = oldVal.filter(ele => {
+            return !newVal.includes(ele)
+          })
+          const emitObj = {
+            data: unCheckedRows,
+            clear: true
+          }
+          this.$emit('update:selectedRowKeys', emitObj);
+        } else {
+          this.$emit('update:selectedRowKeys', this.selectedRowKeys);
+        }
+      },
+      deep: true,
+      // immediate: true
+    },
+
+    /**
+     * xoá các hàng được chọn khi được truyền vào từ cha
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    selectedRowKeysProp: {
+      handler() {
+        if (this.selectedRowKeysProp.length === 0) {
+          this.selectedRowKeys = [];
+        }
+      },
+      immediate: true,
+      deep: true
+    },
+
+    /**
+     * cập nhật hàng được chọn khi có sự thay đổi trang
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    dataSource: {
+      handler() {
+        this.listRowKeys = this.dataSource.map(ele => {
+          return ele.OverTimeId;
+        })
+        if (this.selectedRowKeysProp) {
+          this.selectedRowKeysProp.forEach(ele => {
+            if (this.listRowKeys.includes(ele))
+              this.selectedRowKeys.push(ele);
+          })
+        }
+      },
+      deep: true,
+      immmediate: true
+    }
+  },
+
+  methods: {
+
+    /**
+     * cập nhật hàng được chọn khi có sự thay đổi trang
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    getOverTimeWorkShiftName(data) {
+      const workShift = this.workShifts.find(e => {
+        return e.value === data.value
+      })
+      if (workShift) {
+        return workShift.txt;
+      }
+      else return null;
+    },
+
+    /**
+     * bind ca làm việc theo value
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    getWorkingShiftName(data) {
+      if (data.value) {
+        return "Ca chấm 1 lần";
+      }
+      return null;
+    },
+
+    /**
+     * pin cột
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    pinColumn(pinColumnObj) {
+      if (pinColumnObj.showPin) {
+        // console.log(index);
+        this.isColumnPinArray.forEach((ele, index) => {
+          if (index <= pinColumnObj.index) {
+            this.isColumnPinArray[index] = true;
+          } else {
+            this.isColumnPinArray[index] = false;
+          }
+        });
+
+        const lastIndex = this.isColumnPinArray.findIndex(
+          (ele, index) => ele === true && !this.isColumnPinArray[index + 1]
+        );
+        this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
+        this.isShowPinIcon[lastIndex] = true;
+      } else {
+        this.isColumnPinArray = new Array(NUM_PIN_COLUMNS).fill(false);
+        this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
+      }
+    },
+
+    /**
+     * cập nhật hàng được chọn khi có sự thay đổi trang
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    getPinProps(data) {
+      const idx = this.listHeaders.findIndex(
+        (ele) => ele.dataField === data.column.dataField
+      );
+      if (this.isShowPinIcon[idx] === true) {
+        return true;
+      } else return false;
+    },
+
+    /**
+     * kích hoạt sự kiện edit bản ghi
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    editRequest(event) {
+      this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.EDIT, selectedRequestId: event.row.key })
+
+    },
+
+    /**
+     * kích hoạt sự kiện xoá bản ghi
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    deleteRequest(event) {
+      this.$emit('delete-request', event.row.key)
+    },
+
+    /**
+     * kích hoạt sự kiện xem bản ghi
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    detailRequest(event) {
+      this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.DETAIL, selectedRequestId: event.key })
+    },
+  },
   components: {
     DxDataGrid,
     DxScrolling,
@@ -93,160 +268,13 @@ export default {
     return {
       isColumnPinArray: [],
       isShowPinIcon: [],
-      departments: [],
-      positions: [],
       workShifts: WORK_TIME,
       selectedRowKeys: [],
       listRowKeys: [],
     };
   },
-  created() {
-    this.isColumnPinArray = new Array(NUM_PIN_COLUMNS).fill(false);
-    this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
-    this.getDepartmentAndPositionData();
-  },
 
-  watch: {
-    selectedRowKeys: {
-      handler(newVal, oldVal) {
-        if (newVal.length < oldVal.length) {
-          if (!this.listRowKeys.includes(oldVal[0])) {
-            return;
-          }
 
-          const unCheckedRows = oldVal.filter(ele => {
-            return !newVal.includes(ele)
-          })
-          const emitObj = {
-            data: unCheckedRows,
-            clear: true
-          }
-          this.$emit('update:selectedRowKeys', emitObj);
-        } else {
-          this.$emit('update:selectedRowKeys', this.selectedRowKeys);
-        }
-      },
-      deep: true,
-      // immediate: true
-    },
-    selectedRowKeysProp: {
-      handler() {
-        if (this.selectedRowKeysProp.length === 0) {
-          this.selectedRowKeys = [];
-        }
-      },
-      immediate: true,
-      deep: true
-    },
-    dataSource: {
-      handler() {
-        this.listRowKeys = this.dataSource.map(ele => {
-          return ele.OverTimeId;
-        })
-        if (this.selectedRowKeysProp) {
-          this.selectedRowKeysProp.forEach(ele => {
-            if (this.listRowKeys.includes(ele))
-              this.selectedRowKeys.push(ele);
-          })
-        }
-      },
-      deep: true,
-      immmediate: true
-    }
-  },
-
-  methods: {
-    getDepartmentName(data) {
-      const department = this.departments.find(e => {
-        return e.DepartmentId === data.value
-      })
-      if (department) {
-        return department.DepartmentName;
-      }
-      return null;
-    },
-    getPositionName(data) {
-      const position = this.positions.find(e => {
-        return e.PositionId === data.value
-      })
-      if (position) {
-        return position.PositionName;
-      }
-      else return null;
-    },
-    getOverTimeWorkShiftName(data) {
-      const workShift = this.workShifts.find(e => {
-        return e.value === data.value
-      })
-      if (workShift) {
-        return workShift.txt;
-      }
-      else return null;
-    },
-    getWorkingShiftName(data) {
-      if (data.value) {
-        return "Ca chấm 1 lần";
-      }
-      return null;
-    },
-    pinColumn(pinColumnObj) {
-      if (pinColumnObj.showPin) {
-        // console.log(index);
-        this.isColumnPinArray.forEach((ele, index) => {
-          if (index <= pinColumnObj.index) {
-            this.isColumnPinArray[index] = true;
-          } else {
-            this.isColumnPinArray[index] = false;
-          }
-        });
-
-        const lastIndex = this.isColumnPinArray.findIndex(
-          (ele, index) => ele === true && !this.isColumnPinArray[index + 1]
-        );
-        this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
-        this.isShowPinIcon[lastIndex] = true;
-      } else {
-        this.isColumnPinArray = new Array(NUM_PIN_COLUMNS).fill(false);
-        this.isShowPinIcon = new Array(NUM_PIN_COLUMNS).fill(false);
-      }
-    },
-    getPinProps(data) {
-      const idx = this.listHeaders.findIndex(
-        (ele) => ele.dataField === data.column.dataField
-      );
-      if (this.isShowPinIcon[idx] === true) {
-        return true;
-      } else return false;
-    },
-    editRequest(event) {
-      this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.EDIT, selectedRequestId: event.row.key })
-
-    },
-    deleteRequest(event) {
-      this.$emit('delete-request', event.row.key)
-    },
-    detailRequest(event) {
-      this.$emit('toggle-dialog', { type: DETAIL_VIEW_TYPE.DETAIL, selectedRequestId: event.key })
-    },
-    /**
- * lấy dữ liệu đầu vào cho combobox vị trí và đơn vị
- */
-    async getDepartmentAndPositionData() {
-      try {
-        const departmentResponse = await getDepartments();
-        const positionResponse = await getPositions();
-        if (departmentResponse) {
-          this.departments = departmentResponse.data;
-          this.$emit('update:departments', this.departments)
-        }
-        if (positionResponse) {
-          this.positions = positionResponse.data;
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-  },
 };
 </script>
 <style scoped>

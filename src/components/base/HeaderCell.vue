@@ -11,6 +11,38 @@
 <script>
 export default {
 
+  watch: {
+    isPinProps: {
+      handler() {
+        this.isPin = this.isPinProps;
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    /**
+     * ẩn hiện icon pin
+     */
+    togglePinButton() {
+      this.isShow = !this.isShow;
+      
+    },
+
+    /**
+     * kích hoạt sự kiện pin cột
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    pinColumn(event) {
+      if(!this.isPin) {
+        this.$emit('pin-column', {index: event.path[3].getAttribute('aria-colindex') - 2, showPin: true});
+      }
+      else {
+        this.$emit('pin-column', {index: event.path[3].getAttribute('aria-colindex') - 2, showPin: false});
+      }
+    }
+  },
+  
   props: {
     cellData: {
       type: Object,
@@ -25,30 +57,6 @@ export default {
     return {
       isShow: false,
       isPin: false,
-    }
-  },
-  watch: {
-    isPinProps: {
-      handler() {
-        this.isPin = this.isPinProps;
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    togglePinButton() {
-      this.isShow = !this.isShow;
-      
-    },
-    pinColumn(event) {
-      // this.isPin = !this.isPin;
-      // console.log(event.path[3].getAttribute('aria-colindex'));
-      if(!this.isPin) {
-        this.$emit('pin-column', {index: event.path[3].getAttribute('aria-colindex') - 2, showPin: true});
-      }
-      else {
-        this.$emit('pin-column', {index: event.path[3].getAttribute('aria-colindex') - 2, showPin: false});
-      }
     }
   },
 };

@@ -1,6 +1,13 @@
 <template>
-  <div class="flex align-center">
-    <MAvatar :name="avatarName" /> <span>{{(typeof this.cellData === 'string') ? cellData : cellData.value}}</span>
+  <div class="flex align-center" v-if="!this.cellData.FullName">
+    <MAvatar :name="avatarName" /> <span>{{cellData.value}}</span>
+  </div>
+  <div class="flex align-center" v-if="cellData.FullName">
+    <MAvatar :name="avatarName" :isDetailCell="true"/> 
+    <div>
+      <p><span>{{cellData.FullName}}</span> ({{cellData.EmployeeCode}})</p>
+      <p>{{cellData.DepartmentName}}</p>
+    </div>
   </div>
 </template>
 <script>
@@ -11,8 +18,8 @@ export default {
   },
   created() {
     let nameSeparateArray;
-    if (typeof this.cellData === 'string') {
-      nameSeparateArray = this.cellData.split(" ");
+    if (typeof this.cellData.FullName === 'string') {
+      nameSeparateArray = this.cellData.FullName.split(" ");
     } else {
       nameSeparateArray = this.cellData.value.split(" ");
     }
@@ -33,5 +40,14 @@ export default {
 };
 </script>
 <style>
-
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #212121;
+  }
+  p span {
+    font-weight: bold;
+    font-size: 14px;
+    color: #212121;
+  }
 </style>

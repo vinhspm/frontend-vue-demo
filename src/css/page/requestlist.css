@@ -274,7 +274,7 @@ table {
 }
 .content-container {
   width: 334px !important;
-  height: 443px !important;
+  height: 463px !important;
 }
 .setting__controller {
   padding: 12px;
@@ -321,4 +321,10 @@ table {
   -webkit-mask-position: -312px -72px;
   background-color: #686c7b !important;
   -webkit-mask-repeat: no-repeat;
+}
+.popover-buttons {
+  width: 100%;
+  height: 78px;
+  justify-content: center;
+  padding-bottom: 10px;
 }

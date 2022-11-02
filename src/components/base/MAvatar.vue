@@ -1,6 +1,9 @@
 <template>
-  <div class="parent">
+  <div class="parent" v-if="!isDetailCell">
     <div class="child" :style="{backgroundColor:  backgroundColors[Math.floor(Math.random() * 3)]}">{{name}}</div>
+  </div>
+  <div class="parent--detail-cell" v-if="isDetailCell">
+    <div class="child--detail-cell" :style="{backgroundColor:  backgroundColors[Math.floor(Math.random() * 3)]}">{{name}}</div>
   </div>
 </template>
 <script>
@@ -10,6 +13,10 @@ export default {
     name: {
       Type: String,
       default: ''
+    },
+    isDetailCell: {
+      Type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -35,6 +42,21 @@ export default {
   align-items: center;
   height: 24px;
   width: 24px;
+  border-radius: 50%;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.parent--detail-cell {
+  width: 40px;
+  margin-right: 8px;
+}
+.child--detail-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 36px;
   border-radius: 50%;
   text-transform: uppercase;
   color: #fff;

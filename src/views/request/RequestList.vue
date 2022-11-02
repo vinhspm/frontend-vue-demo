@@ -19,7 +19,8 @@
       <div class="page__toolbar--left-container">
         <div class="page__toolbar--left" tabindex="0">
           <i></i>
-          <input type="text" placeholder="Tìm kiếm" v-model="params.requestFilter" />
+          <span class="input--placeholder" v-show="!params.requestFilter">Tìm kiếm</span>
+          <input type="text" placeholder="" v-model="params.requestFilter" />
         </div>
       </div>
 
@@ -66,7 +67,8 @@
             </template>
           </DxTooltip>
         </div>
-        <div class="btn-sidebar" @click="exportAllFilterData" id="export">
+        <div class="btn-sidebar" :class="{ filterDisabled: !requestLists.length }" @click="exportAllFilterData"
+          id="export">
           <div class="mi-export"></div>
           <DxTooltip target="#export" show-event="dxhoverstart" hide-event="dxhoverend"
             contentTemplate="export-tooltip">
@@ -100,15 +102,15 @@
                 <div class="list-group-wrap">
                   <DxScrollView :scroll-by-thumb="true">
                     <div style="min-height: 100%">
-                      <Draggable v-model="listHeadersClone">
-                        <template v-slot:item="{ item }">
+                      <Draggable v-model="listHeadersClone" item-key="dataField">
+                        <template #item="{ element }">
                           <div class="drag-item">
                             <div class="flex align-center justify-between w-100">
                               <div class="flex align-center">
                                 <input type="checkbox" v-model="listHeadersVisible" name="listHeadersVisible"
-                                  :value="item.dataField" />
+                                  :value="element.dataField" />
                                 <div class="columnName">
-                                  {{ item.caption }}
+                                  {{ element.caption }}
                                 </div>
                               </div>
                               <i class="mi-drag"></i>
@@ -118,6 +120,14 @@
                       </Draggable>
                     </div>
                   </DxScrollView>
+                </div>
+                <div class="flex align-center popover-buttons">
+                  <button class="ms-button-cancel" @click="defaultColumnsOrder">
+                    Mặc định
+                  </button>
+                  <button class="ms-button-primary" @click="saveColumnsOrder">
+                    <span>Lưu</span>
+                  </button>
                 </div>
               </div>
             </template>
@@ -130,8 +140,10 @@
       <div class="flex align-center table-selected-toolbar">
         <span>Đã chọn <strong>{{ selectedRowKeys.length }}</strong></span>
         <span class="f-z-14 c-red" style="padding-left: 8px; cursor: pointer;" @click="deSelectRows">Bỏ chọn</span>
-        <button class="denine-button" @click="multipleDenine"><i class="denine-icon"></i> <span>Từ chối</span></button>
-        <button class="approve-button" @click="multipleApprove"><i class="approve-icon"></i><span>Duyệt</span></button>
+        <button class="denine-button" @click="multipleDenine"><i class="denine-icon"></i>
+          <span>Từ chối</span></button>
+        <button class="approve-button" @click="multipleApprove"><i
+            class="approve-icon"></i><span>Duyệt</span></button>
         <button class="export-button"><i class="export-icon"></i> <span>Xuất khẩu</span></button>
         <button class="delete-all-button" @click="multipleDelete"><i
             class="delete-all-icon"></i><span>Xoá</span></button>
@@ -161,7 +173,7 @@ import {
   approveMultipleRequests,
   exportAllRequestsFilter
 } from "../../assets/axios/requestController/requestController.js";
-import Draggable from "vue3-draggable";
+import Draggable from 'vuedraggable'
 import DxCheckBox from 'devextreme-vue/check-box';
 import { DxTooltip } from 'devextreme-vue/tooltip';
 import lodash from "lodash";
@@ -173,6 +185,7 @@ import {
   REQUEST_STATUS_ARRAY,
   NOTIFY_TYPE,
   DEFAULT_DEPARTMENT_LIST,
+  REQUEST_STATUS,
 } from "../../enum.js";
 import { REQUEST_LIST_HEADER } from '../../resources.js'
 import RequestDetail from "./RequestDetail.vue";
@@ -181,6 +194,7 @@ import notify from "devextreme/ui/notify";
 import DxTextBox from "devextreme-vue/text-box";
 import { DxScrollView } from 'devextreme-vue/scroll-view';
 import { DxPopover } from 'devextreme-vue/popover';
+import { getDepartments } from "../../assets/axios/departmentController/departmentController";
 export default {
   name: "RequestList",
   components: {
@@ -219,12 +233,17 @@ export default {
       listHeadersClone: [],
       listHeadersVisible: [],
       isSettingVisible: false,
+      // isSelectedOnlyApproved: true,
+      // isSelectedOnlyDenied: true,
     };
   },
   created() {
+    this.getDepartments();
     this.departmentDataSource = DEFAULT_DEPARTMENT_LIST;
     this.getData();
     this.listHeaders = lodash.cloneDeep(REQUEST_LIST_HEADER);
+    this.listHeadersClone = lodash.cloneDeep(REQUEST_LIST_HEADER);
+
   },
   watch: {
     "params.requestFilter": {
@@ -234,6 +253,7 @@ export default {
     },
     "params.status": {
       handler() {
+        this.params.pageNumber = 1;
         this.getData();
       },
     },
@@ -245,17 +265,19 @@ export default {
 
     "params.pageSize": {
       handler() {
+        this.params.pageNumber = 1;
         this.getData();
       },
     },
     "params.departmentId": {
       handler() {
+        this.params.pageNumber = 1;
         this.getData();
       },
     },
     listHeaders: {
       handler() {
-        this.listHeadersClone = this.listHeaders;
+        this.listHeadersVisible = [];
         this.listHeaders.forEach(ele => {
           this.listHeadersVisible.push(ele.dataField)
         })
@@ -263,17 +285,6 @@ export default {
       immediate: true,
       deep: true
     },
-    listHeadersVisible: {
-      handler() {
-        console.log(this.listHeadersVisible);
-      },
-      deep: true
-    },
-    listHeadersClone: {
-      handler() {
-        console.log(this.listHeadersClone);
-      }
-    }
   },
   methods: {
 
@@ -288,6 +299,18 @@ export default {
         this.requestLists = requests.data.Data;
         this.totalRecord = requests.data.TotalRecord;
         this.totalPage = requests.data.TotalPage;
+      }
+    },
+
+    /**
+     * lấy data cho đơn vị 
+     * author: vinhkt
+     * created: 01/11/2022
+     */
+    async getDepartments() {
+      const request = await getDepartments();
+      if (request.status == 200) {
+        this.departments = request.data;
       }
     },
 
@@ -345,9 +368,15 @@ export default {
       if (event.clear) {
         this.selectedRowKeys.forEach((element, index) => {
           if (event.data.includes(element)) {
-            this.selectedRowKeys.splice(index, 1);
+            this.selectedRowKeys[index] = 0;
           }
         });
+        for (let i = this.selectedRowKeys.length - 1; i >= 0; i--) {
+          if (this.selectedRowKeys[i] === 0) {
+            this.selectedRowKeys.splice(i, 1);
+          }
+        }
+
       } else {
         event.forEach(element => {
           if (!this.selectedRowKeys.includes(element)) {
@@ -355,6 +384,26 @@ export default {
           }
         });
       }
+        // const selectedRequests = this.requestLists.filter(ele => {
+        //   return this.selectedRowKeys.includes(ele.OverTimeId);
+        // })
+        // const selectedStatuses = selectedRequests.map(ele => {
+        //   return ele.Status;
+        // })
+        // const approvedIndex = selectedStatuses.findIndex(ele => ele === REQUEST_STATUS.APPROVED.value)
+        // const deniedIndex = selectedStatuses.findIndex(ele => ele === REQUEST_STATUS.DENINED.value)
+        // const waitingIndex = selectedStatuses.findIndex(ele => ele === REQUEST_STATUS.WAITING.value)
+
+        // if (waitingIndex === -1 && approvedIndex === -1 && !this.isSelectedOnlyDenied) {
+        //   this.isSelectedOnlyDenied = true;
+        //   this.isSelectedOnlyApproved = false;
+        // } else if (waitingIndex === -1 && deniedIndex === -1) {
+        //   this.isSelectedOnlyDenied = false;
+        //   this.isSelectedOnlyApproved = true;
+        // } else {
+        //   this.isSelectedOnlyDenied = false;
+        //   this.isSelectedOnlyApproved = false;
+        // }
 
     },
 
@@ -635,6 +684,28 @@ export default {
           }
         });
       });
+    },
+
+    /**
+     * thay đổi thứ tự cột trong bảng 
+     */
+    saveColumnsOrder() {
+      this.listHeaders = [];
+      this.listHeadersClone.forEach(header => {
+        if (this.listHeadersVisible.includes(header.dataField)) {
+          this.listHeaders.push(header)
+        }
+      });
+      this.isSettingVisible = false;
+    },
+
+    /**
+     * chuyển thứ tự cột về mặc định
+     */
+    defaultColumnsOrder() {
+      this.listHeaders = lodash.cloneDeep(REQUEST_LIST_HEADER);
+      this.listHeadersClone = lodash.cloneDeep(REQUEST_LIST_HEADER);
+      this.isSettingVisible = false;
     },
 
     /**

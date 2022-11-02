@@ -161,10 +161,11 @@
           >
             <span class="ms-button-text"> Hủy </span>
           </button>
-          <div style="cursor: pointer">
+          <div >
             <button
               class="ms-component ms-button ms-button-primary"
               @click="selectButtonClicked"
+              :disabled="!selectedRowKeys.length"
             >
               <span class="ms-button-backgroundx ms-button--background f-z-14"
                 >Chọn</span
@@ -363,4 +364,15 @@ export default {
 
 <style>
 @import url(../../css/page/employee_list.css);
+.dx-pager .dx-light-pages {
+  display: none;
+}
+.dx-pager .dx-pages .dx-info {
+  transform: translate(-640px, 0);
+  opacity: 1;
+}
+.dx-pager.dx-light-mode .dx-page-sizes {
+  transform: translate(700px, 0);
+  
+}
 </style>

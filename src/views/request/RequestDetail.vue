@@ -32,7 +32,7 @@
                     <DxRequiredRule :message="notNullMsg" />
                   </DxValidator>
                   <template #item="{ data }">
-                    <NameCell :cell-data="data.FullName" />
+                    <NameCell :cell-data="data" />
                   </template>
                 </DxSelectBox>
                 <DxTextBox :value="selectedRequest.FullName" :disabled="isDisableAll" v-if="viewType === 1" />
@@ -149,7 +149,7 @@
                     <DxRequiredRule :message="notNullMsg" />
                   </DxValidator>
                   <template #item="{ data }">
-                    <NameCell :cell-data="data.FullName" />
+                    <NameCell :cell-data="data" />
                   </template>
                 </DxSelectBox>
               </div>
@@ -299,16 +299,11 @@ export default {
     this.statuses.splice(0, 1);
     if (this.viewType != DETAIL_VIEW_TYPE.ADDNEW) {
       this.getSelectedData();
-      this.selectedRequest.ApplyDate = this.selectedRequest.ApplyDate ? moment(this.selectedRequest.ApplyDate).format('yyyy-MM-DDTHH:mm:ss') : null;
-      this.selectedRequest.FromDate = this.selectedRequest.FromDate ? moment(this.selectedRequest.FromDate).format('yyyy-MM-DDTHH:mm:ss') : null;
-      this.selectedRequest.ToDate = this.selectedRequest.ToDate ? moment(this.selectedRequest.ToDate).format('yyyy-MM-DDTHH:mm:ss') : null;
-      this.selectedRequest.BreakTimeFrom = this.selectedRequest.BreakTimeFrom ? moment(this.selectedRequest.BreakTimeFrom).format('yyyy-MM-DDTHH:mm:ss') : null;
-      this.selectedRequest.BreakTimeTo = this.selectedRequest.BreakTimeTo ? moment(this.selectedRequest.BreakTimeTo).format('yyyy-MM-DDTHH:mm:ss') : null;
-
     } else {
       this.selectedRequest.ApplyDate = new Date();
       this.selectedRequest.FromDate = new Date();
       this.selectedRequest.ToDate = new Date();
+      this.selectedRequest.Status = this.statuses[1].value
     }
 
   },
@@ -488,6 +483,11 @@ export default {
         if (this.viewType === DETAIL_VIEW_TYPE.DETAIL) {
           this.employeeSearch = this.selectedEmployees;
         }
+        this.selectedRequest.ApplyDate = this.selectedRequest.ApplyDate ? new Date(this.selectedRequest.ApplyDate) : null;
+        this.selectedRequest.FromDate = this.selectedRequest.FromDate ? new Date(this.selectedRequest.FromDate) : null;
+        this.selectedRequest.ToDate = this.selectedRequest.ToDate ? new Date(this.selectedRequest.ToDate) : null;
+        this.selectedRequest.BreakTimeFrom = this.selectedRequest.BreakTimeFrom ? new Date(this.selectedRequest.BreakTimeFrom) : null;
+        this.selectedRequest.BreakTimeTo = this.selectedRequest.BreakTimeTo ? new Date(this.selectedRequest.BreakTimeTo) : null;
       }
     },
 

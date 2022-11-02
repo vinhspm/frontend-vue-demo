@@ -1,11 +1,11 @@
 @import url(./base/button.css);
 @import url(./base/combobox.css);
-@import url(./base/input.css);
 @import url(./base/table.css);
 @import url(./layout/container.css);
 @import url(./base/icon.css);
 @import url(./base/dialog.css);
 @import url(./layout/content.css);
+@import url(./base/input.css);
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,500;1,700&display=swap");
 
 * {
@@ -283,7 +283,7 @@ label ~ * {
 }
 .dx-datagrid-rowsview .dx-row.dx-selection,
 .dx-row.dx-selection:not(.dx-row-focused) td {
-  visibility: visible;
+  /* visibility: visible; */
   border-bottom: 1px solid #e0e0e0 !important;
 }
 .dx-timeview-hourarrow {
@@ -361,15 +361,23 @@ body
   > table {
   background-color: #f5f5f5;
 }
-.command-button,
-.dx-command-edit {
-  visibility: hidden;
+.command-button {
+  opacity: 0;
 }
-
-.dx-data-row.dx-state-hover:not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row)
+.dx-command-edit {
+  /* visibility: hidden; */
+}
+.dx-row.dx-selection {
+  cursor: pointer;
+}
+.dx-data-row.dx-state-hover:not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row):not(.dx-selection)
   > td:not(.dx-focused)
-  .command-button,
-.dx-data-row.dx-state-hover:not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row)
+  .command-button {
+
+  opacity: 1;
+  /* visibility: visible !important; */
+}
+.dx-data-row.dx-state-hover:not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row):not(.dx-selection)
   .dx-command-edit {
   visibility: visible !important;
 }
@@ -465,6 +473,10 @@ span.dx-checkbox-icon {
   display: none;
 }
 .dx-datagrid-rowsview .dx-row.dx-selection,
+.dx-row.dx-selection:not(.dx-row-focused) {
+  background-color: #fff4e5 !important;
+}
+.dx-datagrid-rowsview .dx-row.dx-selection,
 .dx-row.dx-selection:not(.dx-row-focused) td {
   background-color: #fff4e5 !important;
 }
@@ -526,6 +538,9 @@ span.dx-checkbox-icon {
   margin: 0 0 2px 6px;
   border-radius: 4px;
 }
+.dx-popup-content {
+  padding-bottom: 12px;
+}
 .dx-tooltip-wrapper .dx-overlay-content .dx-popup-content {
   padding: 8px !important;
 }
@@ -582,7 +597,7 @@ span.dx-checkbox-icon {
   > div
   > div:nth-child(1)
   > div:nth-child(1)
-  > div.dx-state-disabled ,
+  > div.dx-state-disabled,
 #app
   > div.main
   > div
@@ -597,16 +612,19 @@ span.dx-checkbox-icon {
   > div
   > div:nth-child(1)
   > div:nth-child(2)
-  > div{
-    border: 1px solid #ddd;
-    color: #6e6a67;
-    background-color: #ebebeb;
-    /* opacity: 1; */
+  > div {
+  border: 1px solid #ddd;
+  color: #6e6a67;
+  background-color: #ebebeb;
+  /* opacity: 1; */
 }
-body > div.dx-dialog.dx-overlay.dx-popup.dx-widget.dx-visibility-change-handler > div > div {
+body
+  > div.dx-dialog.dx-overlay.dx-popup.dx-widget.dx-visibility-change-handler
+  > div
+  > div {
   width: 415px;
   height: 190px;
-  transform: translate(490px, 86px) scale(1)!important;
+  transform: translate(740px, 86px) !important;
 }
 .dx-button-mode-contained.dx-button-danger {
   background-color: #e02915;
@@ -615,22 +633,23 @@ body > div.dx-dialog.dx-overlay.dx-popup.dx-widget.dx-visibility-change-handler 
   letter-spacing: 0.576px;
   font-size: 24px;
   color: rgb(33, 33, 33);
-  max-width: 200px!important;
+  max-width: 200px !important;
   font-weight: 700;
 }
-.dx-popup-title{
+.dx-popup-title {
   border: none;
 }
 .dx-popup-title.dx-toolbar {
   padding-top: 24px;
-
 }
 .dx-popup-bottom.dx-toolbar {
   height: 68px;
   background-color: #f2f2f2;
 }
-.dx-toolbar-after, .dx-toolbar-before, .dx-toolbar-center {
-  margin-right: 0px!important;
+.dx-toolbar-after,
+.dx-toolbar-before,
+.dx-toolbar-center {
+  margin-right: 0px !important;
 }
 .dx-item.dx-toolbar-item.dx-toolbar-button {
   width: 80px;
@@ -638,5 +657,5 @@ body > div.dx-dialog.dx-overlay.dx-popup.dx-widget.dx-visibility-change-handler 
   border-radius: 4px;
 }
 .dx-overlay-shader {
-  background: rgba(0,0,0,.4);
+  background: rgba(0, 0, 0, 0.4);
 }
